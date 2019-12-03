@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="23dp">
+
+            <TextView
+                android:id="@+id/textAlert"
+                android:text="@string/sure_text"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="5dp"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/noButton"
+                android:background="@color/colorPrimaryDark"
+                android:text="@string/no"
+                android:layout_below="@+id/textAlert"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/yesButton"
+                android:background="@color/colorPrimaryDark"
+                android:text="@string/yes"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/textAlert"
+                android:textColor="@android:color/white"
+                android:layout_alignBottom="@id/noButton"
+                android:layout_marginTop="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

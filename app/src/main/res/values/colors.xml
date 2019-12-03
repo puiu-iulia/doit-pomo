@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#89cc78</color>
+    <color name="mediumPriority">#e0b74e</color>
+    <color name="lowPriority">#789acc</color>
+    <color name="colorPrimaryDark">#2A332C</color>
+    <color name="lightGreenBackroundCard">#EFF5EB</color>
+    <color name="colorAccent">#de6e66</color>
+    <color name="greyFont">#2A332C</color>
+    <color name="lightGrey">#767d77</color>
+    <color name="darkGreen">#2A332C</color>
+    <color name="background_card_details">#52805d</color>
+    <color name="backgroundList">#1A1919</color>
+    <color name="greenDetailsLeaf">#EE5756</color>
+    <color name="goButtonDetails">#d41c1c</color>
+</resources>

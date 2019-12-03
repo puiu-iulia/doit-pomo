@@ -1,0 +1,38 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.doitpomo.Activities.MainActivity">
+    <!--<item-->
+        <!--android:id="@+id/action_settings"-->
+        <!--android:orderInCategory="1"-->
+        <!--android:title="@string/action_settings"-->
+        <!--app:showAsAction="never" />-->
+
+    <item android:id="@+id/action_archive"
+        android:title="Tasks Completed"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_done_all_black_24dp"
+        android:iconTintMode="src_over"
+        android:iconTint="@android:color/white"
+        app:showAsAction="never">
+
+    </item>
+
+    <item android:id="@+id/action_about"
+        android:title="About"
+        android:orderInCategory="2"
+        app:showAsAction="never">
+
+    </item>
+
+    <item android:id="@+id/action_add"
+        android:title="Add ToDo"
+        android:orderInCategory="0"
+        app:showAsAction="always"
+        android:iconTint="@color/colorAccent"
+        android:iconTintMode="src_over"
+        android:icon="@drawable/ic_add_black_24dp">
+    </item>
+
+</menu>
+

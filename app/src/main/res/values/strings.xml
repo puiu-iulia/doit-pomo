@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">DoIt Pomo</string>
+    <string name="action_settings">Settings</string>
+    <string name="enter_todo">Enter Todo Item</string>
+    <string name="add_item">Add First ToDo Item</string>
+    <string name="hint_item">Enter Todo Item</string>
+    <string name="save_button">Save</string>
+    <string name="title_activity_list">DoIt with Pomo</string>
+    <string name="sure_text">Are you sure?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="check_text">Did you finish the task?</string>
+    <string name="start_text">Start</string>
+    <string name="break_text">Break</string>
+    <string name="pomodoro_text">The Pomodoro Technique is a time management method that can be used for any task. For many people, time is an enemy. The anxiety triggered by “the ticking clock”, especially when it involves a deadline, leads to ineffective work and study habits which in turn lead to procrastination.
+
+        \nThe aim of the Pomodoro Technique is to use time as a valuable ally in accomplishing what we want to do in the way we want to do it, and to enable us to improve continually the way we work or study.</string>
+    <string name="pomodoro_text2">The Pomodoro Technique will provide a simple tool/process for improving productivity (your own and that of your team members) which can do the following:\n</string>
+    <string name="pomodoro_text3">&#8226; Alleviate anxiety linked to beginning\n
+                                    &#8226; Enhance focus and concentration by cutting down on interruptions\n
+                                    &#8226; Increase awareness of your decisions\n
+        &#8226; Boost motivation and keep it constant\n
+        &#8226; Bolster the determination to achieve your goals\n
+        &#8226; Refine the estimation process, both in qualitative and quantitative terms\n
+        &#8226; Improve your work or study process\n
+    </string>
+    <string name="basics_text">At the beginning of each day select the tasks you need to complete and put them on the TODO list above.\n
+Start working:\n
+
+1. Start the Pomodoro timer\n
+2. Work until the Pomodoro rings\n
+3. Take a short break (3-5 minutes)\n
+Keep on working, Pomodoro after Pomodoro, until the task at hand is finished. Every 4 Pomodoros take a longer break, (15–30 minutes).</string>
+    <string name="priority_prompt">Choose a priority</string>
+    <string-array name="priority_arrays">
+        <item>High</item>
+        <item>Medium</item>
+        <item>Low</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

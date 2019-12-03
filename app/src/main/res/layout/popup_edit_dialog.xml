@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/lightGreenBackroundCard"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutEditPopup"
+            android:padding="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <!---->
+            <!--<CalendarView-->
+            <!--android:id="calendarViewPopup"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:visibility="invisible">-->
+
+            TODO: Think of something like that and research!!!
+            <!--</CalendarView>-->
+
+            <EditText
+                android:layout_marginTop="24dp"
+                android:id="@+id/todoItemEditPopup"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:text="Change Me"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/priorityTextEdit"
+                android:textSize="18sp"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/todoItemEditPopup"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="56dp"
+                android:layout_marginVertical="8dp"
+                android:layout_height="wrap_content"
+                android:text="Priority:"/>
+
+
+            <Spinner
+                android:id="@+id/spinnerEdit"
+                android:layout_below="@id/todoItemEditPopup"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@+id/priorityTextEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:entries="@array/priority_arrays"
+                android:prompt="@string/priority_prompt"/>
+
+
+            <LinearLayout
+                android:id="@+id/dateFinishLinearLayoutEdit"
+                android:layout_width="match_parent"
+                android:layout_alignLeft="@+id/priorityTextEdit"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/spinnerEdit"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/dateFinishTextEdit"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_marginRight="2dp"
+                    android:layout_height="wrap_content"
+                    android:text=" Choose Finish Time:"/>
+
+                <Button
+                    android:id="@+id/todoItemDateFinishEdit"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_below="@+id/spinnerEdit"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/ic_date_range_black_24dp" />
+
+            </LinearLayout>
+
+
+
+
+            <EditText
+                android:id="@+id/categoryPopupEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Notes"
+                android:layout_below="@id/dateFinishLinearLayoutEdit"
+                android:inputType="text" />
+
+            <Button
+                android:layout_marginTop="24dp"
+                android:id="@+id/saveEditButton"
+                android:layout_alignParentBottom="true"
+                android:text="@string/save_button"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+        </RelativeLayout>
+
+        <include layout="@layout/calendar_layout_popup" />
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

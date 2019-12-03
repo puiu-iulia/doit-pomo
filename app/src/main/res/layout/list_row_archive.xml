@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardviewArchive"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="4dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:outlineSpotShadowColor="@color/backgroundList"
+        android:backgroundTint="@color/lightGreenBackroundCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:padding="4dp"
+            android:layout_height="match_parent">
+
+
+            <RelativeLayout
+                android:id="@+id/titleContainerLayout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:id="@+id/nameArchive"
+                    android:text="TodoName"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/lightGrey"
+                    android:textSize="20sp"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/deleteButtonArchive"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/ic_delete_black_24dp"
+                    android:backgroundTint="@color/colorAccent"
+                    />
+
+
+
+
+            </RelativeLayout>
+
+
+            <!--<TableRow-->
+            <!--android:id="@+id/tableEditButons"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:orientation="horizontal">-->
+
+
+            <!--<Button-->
+            <!--android:id="@+id/pomoButton"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_marginTop="4dp"-->
+            <!--android:background="@drawable/pomodorodetails" />-->
+
+            <!--</TableRow>-->
+
+
+            <View
+                android:id="@+id/lineNotes"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightGrey"
+                android:layout_below="@+id/titleContainerLayout"
+                android:layout_marginBottom="2dp">
+            </View>
+
+            <!--<View-->
+            <!--android:id="@+id/lineNotesTwo"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/greyFont"-->
+            <!--android:layout_below="@+id/lineNotes">-->
+            <!--</View>-->
+
+            <RelativeLayout
+                android:id="@+id/detailsTablesLayoutArchive"
+                android:paddingVertical="4dp"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lineNotes">
+
+
+
+                <TextView
+                    android:id="@+id/dateStarted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:text="29 Mar, 2019"
+                    android:textColor="@color/lightGrey"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/lineNotesVerticalOne"
+                    android:layout_width="2dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="48dp"
+                    android:layout_toRightOf="@id/dateStarted"
+                    android:background="@color/lightGrey">
+                </View>
+
+
+                <TextView
+                    android:id="@+id/dateFinished"
+                    android:text="1 Iunie 2019"
+                    android:textColor="@color/lightGrey"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:textSize="18sp"
+                    android:layout_marginRight="24dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:id="@+id/lineNotesVerticalTwo"
+                    android:layout_width="2dp"
+                    android:layout_height="24dp"
+
+                    android:layout_toRightOf="@id/dateFinished"
+                    android:background="@color/lightGrey">
+                </View>
+
+                <TextView
+                    android:id="@+id/timeSpentOnProject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:text="3h 24min (~7P)"
+                    android:textColor="@color/lightGrey"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+
+
+            <!--<View-->
+            <!--android:id="@+id/lineNotesBelow"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2dp"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:background="@color/greenDetailsLeaf">-->
+            <!--</View>-->
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

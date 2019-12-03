@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:backgroundTint="@android:color/white"
+    android:background="@color/colorAccent"
+    tools:context=".Activities.DetailsPomoActivity">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardview"
+        android:backgroundTint="@color/background_card_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        app:cardCornerRadius="4dp"
+        android:outlineSpotShadowColor="@color/background_card_details">
+
+        <RelativeLayout
+            android:id="@+id/itemCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <RelativeLayout
+                android:id="@+id/itemNameDetailsLayout"
+                android:paddingBottom="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <CheckedTextView
+                    android:id="@+id/itemNameDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:checked="false"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/lightGreenBackroundCard"
+                    android:text="CheckedTextView" />
+
+
+                <Button
+                    android:id="@+id/checkbox"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:paddingBottom="2dp"
+                    android:gravity="right"
+                    android:layout_alignParentRight="true"
+                    android:backgroundTint="@color/lightGreenBackroundCard"
+                    android:background="@drawable/ic_check_circle_black_24dp"/>
+
+
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_below="@+id/itemNameDetailsLayout"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/lineDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightGreenBackroundCard"
+                    >
+                </View>
+
+                <!--<View-->
+                <!--android:id="@+id/lineRedTwoDetails"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="@color/colorAccent"-->
+                <!--android:layout_below="@+id/lineDetails">-->
+                <!--</View>-->
+
+                <TextView
+                    android:id="@+id/priorityDetails"
+                    android:layout_below="@+id/lineDetails"
+                    android:layout_width="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Priority:"
+                    android:textColor="@color/lightGreenBackroundCard"
+                    android:layout_height="wrap_content" />
+
+
+                <TextView
+                    android:id="@+id/timeSpentOnProjectDetails"
+                    android:layout_below="@+id/priorityDetails"
+                    android:layout_width="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/lightGreenBackroundCard"
+                    android:text="time spent"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content" />
+
+
+
+                <TextView
+                    android:id="@+id/dateAddedDetails"
+                    android:textColor="@color/lightGreenBackroundCard"
+                    android:layout_below="@+id/timeSpentOnProjectDetails"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/dateFinishDetails"
+                    android:layout_below="@id/dateAddedDetails"
+                    android:textSize="16sp"
+                    android:textColor="@color/lightGreenBackroundCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/descriptionTextView"
+                    android:layout_below="@id/dateFinishDetails"
+                    android:textSize="16sp"
+                    android:textColor="@color/lightGreenBackroundCard"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true">
+
+
+                    <Button
+                        android:id="@+id/deleteButtonDetails"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginBottom="8dp"
+                        android:backgroundTint="@color/lightGreenBackroundCard"
+                        android:background="@drawable/ic_delete_black_24dp"/>
+
+                    <Button
+                        android:id="@+id/editButtonDetails"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:backgroundTint="@color/lightGreenBackroundCard"
+                        android:background="@drawable/ic_mode_edit_black_24dp"/>
+
+
+                </LinearLayout>
+
+
+
+
+
+            </RelativeLayout>
+
+
+
+
+            <!--<ImageView-->
+            <!--android:id="@+id/arrowDate"-->
+            <!--android:layout_width="16dp"-->
+            <!--android:layout_height="16dp"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:layout_marginRight="8dp"-->
+            <!--android:src="@drawable/pomocheckgreenblackcircle"/>-->
+
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/seekBarCardView"
+        app:cardCornerRadius="4dp"
+        android:visibility="invisible"
+        android:layout_below="@+id/cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:backgroundTint="@color/lightGreenBackroundCard">
+
+        <RelativeLayout
+            android:id="@+id/layoutSeekbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/timerSettingsText"
+                android:layout_margin="16dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/greyFont"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Timer Settings"/>
+
+
+            <RelativeLayout
+                android:layout_below="@+id/timerSettingsText"
+                android:id="@+id/workTextLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:outlineSpotShadowColor="@color/greyFont">
+
+
+                <TextView
+                    android:id="@+id/workTimeStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="16dp"
+                    android:text="1"
+                    android:textColor="@color/greyFont" />
+
+                <TextView
+                    android:id="@+id/workTimeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="8dp"
+                    android:text="Work Time: 25min"
+                    android:textColor="@color/greyFont"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/workTimeStop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="4dp"
+                    android:text="90"
+                    android:textColor="@color/greyFont" />
+
+
+            </RelativeLayout>
+
+            <SeekBar
+                android:id="@+id/timerSeekbar"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_below="@+id/workTextLayout"
+                android:layout_marginBottom="32dp"
+                android:progressBackgroundTint="@color/greyFont"
+                android:progressTint="@color/colorAccent"
+                android:thumbTint="@color/colorAccent" />
+
+
+            <RelativeLayout
+                android:id="@+id/breakTextLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/timerSeekbar"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:orientation="horizontal"
+                android:outlineSpotShadowColor="@color/greyFont">
+
+
+                <TextView
+                    android:id="@+id/breakTimeStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="4dp"
+                    android:text="1"
+                    android:textColor="@color/greyFont" />
+
+                <TextView
+                    android:id="@+id/breakTimeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="8dp"
+                    android:text="Break Time: 5min"
+                    android:textColor="@color/greyFont"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/breakTimeStop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="4dp"
+                    android:text="20"
+                    android:textColor="@color/greyFont" />
+
+
+            </RelativeLayout>
+
+
+            <SeekBar
+                android:id="@+id/breakSeekbar"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_below="@id/breakTextLayout"
+                android:progressBackgroundTint="@color/greyFont"
+                android:progressTint="@color/background_card_details"
+                android:thumbTint="@color/background_card_details" />
+
+
+            <Button
+                android:id="@+id/saveSettinsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:backgroundTint="@color/background_card_details"
+                android:text="Save" />
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+    <RelativeLayout
+        android:id="@+id/pomodoroLayout"
+        android:layout_below="@+id/cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp">
+
+
+            <ImageView
+                android:id="@+id/pomodoroImageView"
+                android:layout_width="260dp"
+                android:layout_height="260dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="144dp"
+                android:background="@drawable/pomodorodetails"
+                />
+
+            <TextView
+                android:id="@+id/countdownChooseTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:focusable="auto"
+                android:textColor="@color/lightGreenBackroundCard"
+                android:layout_marginLeft="120dp"
+                android:textSize="60sp"
+                android:textStyle="bold" />
+
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="48dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/goButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/pomobutton"
+            android:backgroundTint="@color/colorAccent"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/breakButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/breakbutton"
+            android:backgroundTint="@color/background_card_details"
+            android:visibility="gone"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/pauseButton"
+            android:layout_width="40dp"
+            android:visibility="gone"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/ic_pause_black_24dp"
+            android:backgroundTint="@color/lightGrey"
+            android:layout_height="40dp" />
+
+        <Button
+            android:id="@+id/playButton"
+            android:layout_width="48dp"
+            android:visibility="gone"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/ic_play_arrow_black_24dp"
+            android:backgroundTint="@color/lightGrey"
+            android:layout_height="48dp" />
+
+        <Button
+            android:id="@+id/stopButton"
+            android:layout_width="48dp"
+            android:background="@drawable/ic_stop_black_24dp"
+            android:layout_height="48dp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:backgroundTint="@color/lightGrey"/>
+
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="44dp"
+            android:background="@drawable/ic_timer_black_24dp"
+            android:layout_height="44dp"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="8dp"
+            android:textColor="@color/greyFont"
+            android:backgroundTint="@color/lightGrey"/>
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
