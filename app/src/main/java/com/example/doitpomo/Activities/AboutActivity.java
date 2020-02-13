@@ -7,8 +7,6 @@ import com.example.doitpomo.R;
 
 public class AboutActivity extends AppCompatActivity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

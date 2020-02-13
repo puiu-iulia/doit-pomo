@@ -71,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:textSize="16sp"
                     android:layout_height="wrap_content"
-                    android:text="Choose Finish Time:"/>
+                    android:text="Choose Finish Date:"/>
 
                 <Button
                     android:id="@+id/todoItemDateFinish"
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content" />
 
         </RelativeLayout>
-        <include layout="@layout/calendar_popup" />
+<!--        <include layout="@layout/calendar_popup" />-->
     </android.support.v7.widget.CardView>
 
 </LinearLayout>

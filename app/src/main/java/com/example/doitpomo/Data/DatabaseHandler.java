@@ -34,7 +34,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + Constants.KEY_DESCRIPTION + " TEXT,"
                 + Constants.KEY_DATE_NAME + " LONG,"
                 + Constants.KEY_COMPLETION_DATE + " LONG,"
-                + Constants.KEY_TODO_DATE_FINISH + " LONG NOT NULL);";
+                + Constants.KEY_TODO_DATE_FINISH + " LONG);";
 
         db.execSQL(CREATE_TODO_TABLE);
 

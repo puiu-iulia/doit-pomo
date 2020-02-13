@@ -19,10 +19,21 @@
     </item>
 
     <item android:id="@+id/action_about"
-        android:title="About"
+        android:title="About Pomodoro"
+        android:icon="@drawable/ic_info_outline_black_24dp"
+        android:iconTintMode="src_over"
+        android:iconTint="@android:color/white"
         android:orderInCategory="2"
         app:showAsAction="never">
+    </item>
 
+    <item android:id="@+id/action_settings"
+        android:title="App Info"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:iconTintMode="src_over"
+        android:iconTint="@android:color/white"
+        android:orderInCategory="2"
+        app:showAsAction="never">
     </item>
 
     <item android:id="@+id/action_add"

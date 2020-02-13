@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private AlertDialog dialog;
     private Spinner spinner;
     private RelativeLayout popupRelativeLayout, calendarLayout;
-    String priority;
+    String priority, itemFinishDAte;
 
 
     private TextView itemFinishText;
@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onResume() {
+        super.onResume();
         setContentView(R.layout.activity_main);
 
         renderList();
@@ -146,12 +146,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         popupRelativeLayout = view.findViewById(R.id.relativeLayoutPopup);
         toDoName = view.findViewById(R.id.todoItem);
-        toDoDateFinish = view.findViewById(R.id.popupDatePicker);
         saveButton = view.findViewById(R.id.saveButton);
         todoItemFinish = view.findViewById(R.id.todoItemDateFinish);
         itemFinishText = view.findViewById(R.id.dateFinishText);
-        saveDateButton = view.findViewById(R.id.saveDateButton);
-        calendarLayout = view.findViewById(R.id.calendarLayout);
         description = view.findViewById(R.id.notesDescription);
 
 
@@ -177,52 +174,42 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         todoItemFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupRelativeLayout.setVisibility(View.INVISIBLE);
-                calendarLayout.setVisibility(View.VISIBLE);
+
+                Calendar cal = Calendar.getInstance();
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, R.style.MyDatePickerDialogTheme, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                        Date finishDate =  new Date(year - 1900, month, dayOfMonth);
+                        SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy");
+                        itemFinishDAte = formatter.format(finishDate);
+                        itemFinishText.setText(" Finish Date: " + itemFinishDAte);
+                    }
+                }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+
+                datePickerDialog.show();
 
             }
         });
 
-        // Date Dialog
-
-
-//        Calendar cal = Calendar.getInstance();
-//
-//        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                Log.i("date", String.valueOf(dayOfMonth));
-//            }
-//        }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-//
-//        datePickerDialog.show();
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                saveTodoItemToDB(v);
                 String input = toDoName.getText().toString();
                 if (input.length() == 0) {
-                    Toast.makeText(MainActivity.this, "Please enter a task", Toast.LENGTH_SHORT);
+                    Toast.makeText(MainActivity.this, "Please enter a task", Toast.LENGTH_SHORT).show();
                     return;
+                } else if (itemFinishDAte == null) {
+                    Toast.makeText(MainActivity.this, "Please choose a finish date", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    saveTodoItemToDB(v);
                 }
             }
         });
-
-        saveDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendarLayout.setVisibility(View.INVISIBLE);
-                popupRelativeLayout.setVisibility(View.VISIBLE);
-                Date finishDate =  new Date(toDoDateFinish.getYear() - 1900, toDoDateFinish.getMonth(), toDoDateFinish.getDayOfMonth());
-                SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy");
-                String itemFinishDAte = formatter.format(finishDate);
-                itemFinishText.setText("Finish Date: " + itemFinishDAte);
-                todoItemFinish.setVisibility(View.VISIBLE);
-            }
-        });
-
 
     }
 
@@ -236,13 +223,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         TodoItem todoItem = new TodoItem();
 
-        String itemName = toDoName.getText().toString();
-        String descriptionNotes = description.getText().toString();
-
-        Date finishDate =  new Date(toDoDateFinish.getYear() - 1900, toDoDateFinish.getMonth(), toDoDateFinish.getDayOfMonth());
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy");
-
-        String itemFinishDAte = formatter.format(finishDate);
+        String itemName = toDoName.getText().toString().trim();
+        String descriptionNotes = description.getText().toString().trim();
 
 
         todoItem.setName(itemName);

@@ -2,8 +2,14 @@ package com.example.doitpomo.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.media.MediaPlayer;
@@ -12,6 +18,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +41,10 @@ import android.widget.Toast;
 import com.example.doitpomo.Data.DatabaseHandler;
 import com.example.doitpomo.Model.TodoItem;
 import com.example.doitpomo.R;
+import com.example.doitpomo.Sync.TimerBroadcastService;
+import com.example.doitpomo.Utils.Constants;
+import com.example.doitpomo.Utils.Notifications;
+import com.example.doitpomo.Utils.PrefUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,12 +56,12 @@ public class DetailsPomoActivity extends AppCompatActivity {
     public TextView dateAdded, timeSpent, dateFinish;
     public int itemId;
     private DatabaseHandler db;
-    TextView timerTextView, workTimeStart, workTimeStop, breakTimeStart, breakTimeStop, breakTimeTextView, workTimeTextView, descriptionTextView, priorityTextView, editPopupTextDate;
+    TextView timerTextView, workTimeStart, workTimeStop, breakTimeStart, breakTimeStop, breakTimeTextView, workTimeTextView, longBreakTextView, workSessionsTextView, descriptionTextView, priorityTextView, editPopupTextDate;
     EditText todoEditPopup, categroyEditPopup;
-    SeekBar timerSeekbar, breakSeekbar;
+    SeekBar timerSeekbar, breakSeekbar, longBreakSeekbar, workSessionsSeekbar;
     Boolean workModeIsOn = false;
     Boolean breakModeIsOn = false;
-    Button startButton, pauseButton, playButton, breakButton, stopButton, editButton, todoEditPopupButton,
+    Button startButton, pauseButton, playButton, breakButton, stopButton, editButton,
             savaDateEditPopup, saveEditButton, todoItemDateFinishEditButton, settingsTimerButton,
             saveSettingsButton, checkboxButton, deleteButtonDetails;
     public RelativeLayout popupEditLayout, pomoLayout, calendarLayout;
@@ -59,44 +70,14 @@ public class DetailsPomoActivity extends AppCompatActivity {
     private Spinner spinner;
     CountDownTimer workCountDownTimer, breakCountDownTimer;
     private DatePicker toDoDateFinishEdit;
-    public SharedPreferences mPrefs;
-    public static final String PREFS_NAME = "myPrefsFile";
+    
 
     private CardView seekbarCardView;
 
-    private int workTime, breakTime, totalWorkOnTask, breakCount;
-    private long totalWork, totalBreak;
-    private String priority;
+    private int workTime, breakTime, totalWorkOnTask, longBreakTime, workSessionsNumber, currentTimeSession;
+    private long totalWork, totalBreak, endTimeWork, endTimeBreak, totalLongBreak, endTimeLongBreak;
+    private String priority, itemFinishDAte;
 
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        pauseTimer();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        stopTimer();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        resumeTimer();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        resumeTimer();
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -118,6 +99,8 @@ public class DetailsPomoActivity extends AppCompatActivity {
         breakTimeStart = findViewById(R.id.breakTimeStart);
         breakTimeStop = findViewById(R.id.breakTimeStop);
         breakTimeTextView = findViewById(R.id.breakTimeTextView);
+        longBreakTextView = findViewById(R.id.longBreakTimeTextView);
+        workSessionsTextView = findViewById(R.id.workSessionsTextView);
         workTimeTextView = findViewById(R.id.workTimeTextView);
         timeSpent = findViewById(R.id.timeSpentOnProjectDetails);
         dateFinish = findViewById(R.id.dateFinishDetails);
@@ -131,9 +114,271 @@ public class DetailsPomoActivity extends AppCompatActivity {
         saveSettingsButton = findViewById(R.id.saveSettinsButton);
         priorityTextView = findViewById(R.id.priorityDetails);
         deleteButtonDetails = findViewById(R.id.deleteButtonDetails);
+        longBreakSeekbar = findViewById(R.id.longBreakSeekbar);
+        workSessionsSeekbar = findViewById(R.id.workSessionsSeekbar);
 
-        mPrefs =getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        updateData();
 
+
+//        Bundle bundle = getIntent().getExtras();
+//
+//        db = new DatabaseHandler(this);
+//
+//        if (bundle!= null) {
+//            itemName.setText(bundle.getString("name"));
+//            dateAdded.setText("Start:        " + bundle.getString("date"));
+//
+//            itemId = bundle.getInt("id");
+//            TodoItem todoItem = db.getTodoItem(itemId);
+//
+////            priorityTextView.setText("Priority:    " + bundle.getString("priority"));
+//            priorityTextView.setText("Priority:    " + todoItem.getPriority());
+//            if (todoItem.getTimeSpent() != 0) {
+//                timeSpent.setVisibility(View.VISIBLE);
+//                if (todoItem.getTimeSpent()/60 < 60){
+//                    timeSpent.setText("Time:        " + todoItem.getTimeSpent() / 60 + " min");
+//                } else {
+//                    timeSpent.setText("Time:        " + todoItem.getTimeSpent()/3600 + " h " + todoItem.getTimeSpent() % 3600 + " min");
+//                }
+//            }
+//
+//            if (todoItem.getDescription() == null || todoItem.getDescription() == "") {
+//                descriptionTextView.setVisibility(View.GONE);
+//            } else {
+//                descriptionTextView.setVisibility(View.VISIBLE);
+//                descriptionTextView.setText("Notes:      " + todoItem.getDescription());
+//            }
+//
+//            dateFinish.setText("Finish:      " + todoItem.getFinishDate());
+//        }
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingsTimerButton.setVisibility(View.GONE);
+                stopButton.setVisibility(View.VISIBLE);
+                pauseButton.setVisibility(View.VISIBLE);
+                breakButton.setVisibility(View.VISIBLE);
+                startButton.setVisibility(View.GONE);
+
+                PrefUtils.setIsWorkModeOn(getApplicationContext(), true);
+                PrefUtils.setIsBreakModeOn(getApplicationContext(), false);
+                PrefUtils.setIsResumed(getApplicationContext(), false);
+                startService(new Intent(getApplicationContext(), TimerBroadcastService.class));
+                registerReceiver(broadcastReceiver, new IntentFilter(TimerBroadcastService.COUNTDOWN_BROADCAST));
+            }
+        });
+
+        breakButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopButton.setVisibility(View.VISIBLE);
+                breakButton.setVisibility(View.GONE);
+                startButton.setVisibility(View.VISIBLE);
+                breakButton.setVisibility(View.GONE);
+                startButton.setVisibility(View.VISIBLE);
+                PrefUtils.setIsWorkModeOn(getApplicationContext(), false);
+                PrefUtils.setIsBreakModeOn(getApplicationContext(), true);
+
+                startService(new Intent(getApplicationContext(), TimerBroadcastService.class));
+                registerReceiver(broadcastReceiver, new IntentFilter(TimerBroadcastService.COUNTDOWN_BROADCAST));
+            }
+        });
+
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingsTimerButton.setVisibility(View.VISIBLE);
+                pauseButton.setVisibility(View.GONE);
+                playButton.setVisibility(View.GONE);
+                stopButton.setVisibility(View.GONE);
+                breakButton.setVisibility(View.GONE);
+                startButton.setVisibility(View.VISIBLE);
+                stopService(new Intent(getApplicationContext(), TimerBroadcastService.class));
+                updateTotalSpent();
+                timerTextView.setText((workTime / 60) + ":00");
+                timerSeekbar.setProgress(workTime / 60);
+            }
+        });
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createPopupEditDialog();
+            }
+        });
+
+        deleteButtonDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteItem();
+            }
+        });
+
+        checkboxButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateDone(v);
+            }
+        });
+
+        settingsTimerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                seekbarCardView.setVisibility(View.VISIBLE);
+                pomoLayout.setVisibility(View.INVISIBLE);
+
+            }
+        });
+
+        saveSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                seekbarCardView.setVisibility(View.GONE);
+                pomoLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
+
+        timerSeekbar.setMax(90);
+        timerSeekbar.setMin(1);
+        breakSeekbar.setMax(20);
+        breakSeekbar.setMin(1);
+        longBreakSeekbar.setMin(1);
+        longBreakSeekbar.setMax(30);
+        workSessionsSeekbar.setMin(1);
+        workSessionsSeekbar.setMax(10);
+
+        workTime = PrefUtils.getWorkTime(getApplicationContext());
+        Log.d("Work Time", String.valueOf(workTime));
+        breakTime = PrefUtils.getBreakTime(getApplicationContext());
+        longBreakTime = PrefUtils.getLongBreakTime(getApplicationContext());
+        workSessionsNumber = PrefUtils.getLongBreakTime(getApplicationContext());
+
+        timerSeekbar.setProgress(workTime / 60);
+        breakSeekbar.setProgress(breakTime / 60);
+        longBreakSeekbar.setProgress(longBreakTime / 60);
+        workSessionsSeekbar.setProgress(workSessionsNumber);
+        workTimeTextView.setText("Work Time: " + workTime / 60 +" min");
+        breakTimeTextView.setText("Break Time: " + breakTime / 60 +" min");
+        longBreakTextView.setText("Long Break Time: " + longBreakTime / 60 + " min");
+        workSessionsTextView.setText("Work Sessions before Long Break: " + workSessionsNumber);
+
+
+//        updateTimer(workTime);
+        timerTextView.setText(workTime / 60 + ":00");
+
+
+        timerSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                if (fromUser) {
+                    workTime = progress * 60;
+//                    updateTimer(workTime);
+                    timerTextView.setText(workTime / 60 + ":00");
+                    workTimeTextView.setText("Work Time: " + progress +" min");
+                    PrefUtils.setWorkTime(getApplicationContext(), workTime);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        breakSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    breakTime = progress * 60;
+                    breakTimeTextView.setText("Break Time: " + progress +" min");
+                    PrefUtils.setBreakTime(getApplicationContext(), breakTime);
+                }
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        longBreakSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    longBreakTime = progress * 60;
+                    longBreakTextView.setText("Long Break Time: " + progress + " min");
+                    PrefUtils.setLongBreakTime(getApplicationContext(), longBreakTime);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        workSessionsSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    workSessionsNumber = progress;
+                    workSessionsTextView.setText("Work Sessions before Long Break: " + progress);
+                    PrefUtils.setWorkSessions(getApplicationContext(), workSessionsNumber);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pauseButton.setVisibility(View.GONE);
+                playButton.setVisibility(View.VISIBLE);
+                pauseTimer();
+            }
+        });
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resumeTimer();
+                pauseButton.setVisibility(View.VISIBLE);
+                playButton.setVisibility(View.GONE);
+            }
+        });
+
+
+    }
+
+    public void updateData() {
         Bundle bundle = getIntent().getExtras();
 
         db = new DatabaseHandler(this);
@@ -165,165 +410,37 @@ public class DetailsPomoActivity extends AppCompatActivity {
 
             dateFinish.setText("Finish:      " + todoItem.getFinishDate());
         }
-
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startWorkTimer(workTime * 1000);
-            }
-        });
-
-        breakButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startBreakTimer(breakTime * 1000);
-            }
-        });
-
-        stopButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopTimer();
-            }
-        });
-
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createPopupEditDialog();
-            }
-        });
-
-        deleteButtonDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteItem();
-            }
-        });
-
-        checkboxButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateDone(v);
-            }
-        });
-
-        settingsTimerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                seekbarCardView.setVisibility(View.VISIBLE);
-                pomoLayout.setVisibility(View.INVISIBLE);
-
-
-            }
-        });
-
-        saveSettingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                seekbarCardView.setVisibility(View.GONE);
-                pomoLayout.setVisibility(View.VISIBLE);
-            }
-        });
-
-        final SharedPreferences.Editor editor = mPrefs.edit();
-
-        timerSeekbar.setMax(90);
-        timerSeekbar.setMin(1);
-        breakSeekbar.setMax(20);
-        breakSeekbar.setMin(1);
-        workTime = mPrefs.getInt("Work", 1500);
-        breakTime = mPrefs.getInt("Break", 300);
-        timerSeekbar.setProgress(workTime / 60);
-        breakSeekbar.setProgress(breakTime / 60);
-        updateTimer(workTime);
-
-        timerSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                if (fromUser) {
-                    workTime = progress * 60;
-                    updateTimer(workTime);
-                    workTimeTextView.setText("Work Time: " + Integer.toString(progress) +" min");
-
-                    editor.putInt("Work", workTime);
-                    editor.commit();
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        breakSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    breakTime = progress * 60;
-                    breakTimeTextView.setText("Break Time: " + Integer.toString(progress) +" min");
-                    Integer b = breakTime;
-                    editor.putInt("Break", b);
-                    editor.commit();
-                }
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        pauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pauseTimer();
-            }
-        });
-
-        playButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resumeTimer();
-                pauseButton.setVisibility(View.VISIBLE);
-                playButton.setVisibility(View.GONE);
-            }
-        });
-
-
     }
 
-    //Todo: stay as (on) background process while timer is on
+
+    public void updateTimer(Intent intent) {
+
+        if (intent.getExtras() != null) {
+            long millisUntilFinished = intent.getLongExtra("countdown", 0);
+            int secondsLeft = (int) (millisUntilFinished / 1000);
+
+            int minutes = secondsLeft / 60;
+            int seconds = secondsLeft - (minutes * 60);
+            String secondString = Integer.toString(seconds);
+            if (seconds <= 9) {
+                secondString = "0" + secondString;
+            }
+
+            timerTextView.setText(minutes + ":" + secondString);
 
 
-    public void updateTimer(int secondsLeft) {
-
-        int minutes = secondsLeft / 60;
-        int seconds = secondsLeft - (minutes * 60);
-
-        String secondString = Integer.toString(seconds);
-
-        if (seconds <= 9) {
-            secondString = "0" + secondString;
+            if (secondsLeft == 0) {
+                Log.d("Stop", "millis is 0");
+//                MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.airhorn);
+//                mediaPlayer.start();
+                Notifications.remindUserTimerFinished(getApplicationContext());
+                stopTimer();
+                updateTotalSpent();
+            }
         }
 
-
-        timerTextView.setText(String.valueOf(minutes) + ":" + secondString);
-
     }
+
 
     @SuppressLint("ResourceAsColor")
     public void stopTimer() {
@@ -336,108 +453,26 @@ public class DetailsPomoActivity extends AppCompatActivity {
         breakButton.setVisibility(View.GONE);
         startButton.setVisibility(View.VISIBLE);
 
-        if (workModeIsOn) {
-            workModeIsOn = false;
-
-            workCountDownTimer.cancel();
-        } else if (breakModeIsOn) {
-            breakModeIsOn = false;
-            breakCountDownTimer.cancel();
-        }
-
         timerTextView.setText(String.valueOf(workTime / 60) + ":00");
         timerSeekbar.setProgress(workTime / 60);
-        updateTotalSpent();
+        stopService(new Intent(getApplicationContext(), TimerBroadcastService.class));
 
     }
 
     public void pauseTimer() {
         pauseButton.setVisibility(View.GONE);
         playButton.setVisibility(View.VISIBLE);
-        if (workModeIsOn) {
-            workCountDownTimer.cancel();
-        } else if (breakModeIsOn) {
-            breakCountDownTimer.cancel();
-        }
+        PrefUtils.setIsResumed(getApplicationContext(), false);
+        Log.d("time left when paused", String.valueOf(PrefUtils.getRemindingTime(getApplicationContext())));
+        stopService(new Intent(getApplicationContext(), TimerBroadcastService.class));
     }
 
     public void resumeTimer() {
-        if (workModeIsOn) {
-            Log.d("time spent resume", String.valueOf(totalWork));
-            startWorkTimer(totalWork);
-        } else if (breakModeIsOn) {
-            startBreakTimer(totalBreak);
-        }
-    }
-
-
-    public void startWorkTimer(final long timeLeftMilli) {
-
-        settingsTimerButton.setVisibility(View.GONE);
-        stopButton.setVisibility(View.VISIBLE);
         pauseButton.setVisibility(View.VISIBLE);
-        breakButton.setVisibility(View.VISIBLE);
-        startButton.setVisibility(View.GONE);
-
-        if (breakCountDownTimer != null) {
-            breakCountDownTimer.cancel();
-        }
-
-        workModeIsOn = true;
-        breakModeIsOn = false;
-
-        workCountDownTimer = new CountDownTimer(timeLeftMilli + 100, 1000) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-                totalWork = millisUntilFinished;
-                updateTimer((int) millisUntilFinished / 1000);
-            }
-
-
-            @Override
-            public void onFinish() {
-                MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.airhorn);
-                mediaPlayer.start();
-                totalWorkOnTask = totalWorkOnTask + (workTime - (int) totalWork/1000);
-                stopTimer();
-                //Todo: write a function that adds the time to the DB
-            }
-
-        }.start();
-
-    }
-
-    public void startBreakTimer(final long timeLengthMilli) {
-
-        stopButton.setVisibility(View.VISIBLE);
-        breakButton.setVisibility(View.GONE);
-        startButton.setVisibility(View.VISIBLE);
-        breakButton.setVisibility(View.GONE);
-        startButton.setVisibility(View.VISIBLE);
-        workCountDownTimer.cancel();
-
-        workModeIsOn = false;
-        breakModeIsOn = true;
-
-        Log.d("Break", "break");
-        workCountDownTimer.cancel();
-
-        breakCountDownTimer = new CountDownTimer(timeLengthMilli + 100, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                updateTimer((int) millisUntilFinished / 1000);
-                totalBreak = millisUntilFinished;
-            }
-
-            @Override
-            public void onFinish() {
-                MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.airhorn);
-                mediaPlayer.start();
-                stopTimer();
-            }
-        }.start();
-
+        playButton.setVisibility(View.GONE);
+        PrefUtils.setIsResumed(getApplicationContext(), true);
+        startService(new Intent(getApplicationContext(), TimerBroadcastService.class));
+        registerReceiver(broadcastReceiver, new IntentFilter(TimerBroadcastService.COUNTDOWN_BROADCAST));
     }
 
     private void createPopupEditDialog() {
@@ -506,11 +541,26 @@ public class DetailsPomoActivity extends AppCompatActivity {
         });
 
 
+
         todoItemDateFinishEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupEditLayout.setVisibility(View.INVISIBLE);
-                calendarLayout.setVisibility(View.VISIBLE);
+
+                Calendar cal = Calendar.getInstance();
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(DetailsPomoActivity.this, R.style.MyDatePickerDialogTheme, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                        Date finishDate =  new Date(year - 1900, month, dayOfMonth);
+                        SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy");
+                        itemFinishDAte = formatter.format(finishDate);
+                        editPopupTextDate.setText("Finish Date: " + itemFinishDAte);
+                    }
+                }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+
+                datePickerDialog.show();
+
             }
         });
 
@@ -544,14 +594,15 @@ public class DetailsPomoActivity extends AppCompatActivity {
                 String itemFinishDAte = formatter.format(finishDate);
                 todoItem.setFinishDate(itemFinishDAte);
 
-                String input = itemName.getText().toString();
-                if (input.length() == 0) {
+                if (todoEditPopup.getText().length() == 0) {
                     Toast.makeText(DetailsPomoActivity.this, "Please enter a task", Toast.LENGTH_SHORT);
                     return;
+                } else {
+                    //Save to DB
+                    db.updateTodoItem(todoItem);
                 }
 
-                //Save to DB
-                db.updateTodoItem(todoItem);
+
 
 
                 //Update in Details Activity
@@ -603,8 +654,9 @@ public class DetailsPomoActivity extends AppCompatActivity {
 
         TodoItem todoItem = db.getTodoItem(itemId);
 
-        todoItem.setTimeSpent(totalWorkOnTask);
+        todoItem.setTimeSpent(todoItem.getTimeSpent()+ totalWorkOnTask);
         db.updateTodoItem(todoItem);
+        db.close();
         Log.d("time spent item", String.valueOf(db.getTodoItem(itemId).getTimeSpent()));
 
         Log.d("time on task", String.valueOf(todoItem.getTimeSpent()));
@@ -637,6 +689,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
         todoItem.setCompletionDate(itemCompletionDate);
 
         db.updateTodoItem(todoItem);
+        db.close();
 
         checkboxButton.setBackgroundResource(R.drawable.ic_check_black_24dp);
         itemName.setPaintFlags(itemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -658,7 +711,61 @@ public class DetailsPomoActivity extends AppCompatActivity {
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+//    public void saveToSharedPreferences() {
+//
+//        PrefUtils.setIsWorkModeOn(this, workModeIsOn);
+//        PrefUtils.setIsBreakModeOn(this, breakModeIsOn);
+//        PrefUtils.setEndTimeWork(this, endTimeWork);
+//        PrefUtils.setEndTimeBreak(this, endTimeBreak);
+//        PrefUtils.setEndTimeLongBreak(this, endTimeLongBreak);
+//        PrefUtils.setTotalWork(this, totalWork);
+//        PrefUtils.setTotalBreak(this, totalBreak);
+//        PrefUtils.setTotalLongBreak(this, totalLongBreak);
+//    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+//        try {
+//            unregisterReceiver(br);
+//        } catch (Exception e) {
+//            Log.d("reveiver stopped", e.toString());
+//        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateData();
+//        registerReceiver(br, new IntentFilter(TimerBroadcastService.COUNTDOWN_BROADCAST));
+//        updateTimer(new Intent(this, TimerBroadcastService.class));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+//        unregisterReceiver(br);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        stopService(new Intent(this, TimerBroadcastService.class));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateData();
+//        registerReceiver(broadcastReceiver, new IntentFilter(TimerBroadcastService.COUNTDOWN_BROADCAST));
+    }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateTimer(intent);
+        }
+    };
 }
 
 

@@ -16,4 +16,5 @@ public class Constants {
     public static final String KEY_TODO_DATE_FINISH = "date_finish";
     public static final String KEY_DONE = "done";
     public static final String KEY_COMPLETION_DATE = "completion_date";
+    public static final String PREFS_NAME = "myPrefsFile";
 }
