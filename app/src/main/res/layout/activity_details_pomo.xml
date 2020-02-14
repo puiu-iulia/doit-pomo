@@ -516,13 +516,12 @@
 
         <Button
             android:id="@+id/breakButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginHorizontal="8dp"
-            android:paddingTop="8dp"
+            android:layout_width="44dp"
+            android:layout_height="52dp"
+            android:layout_marginLeft="8dp"
+            android:paddingTop="4dp"
             android:background="@drawable/cup_pomodoro_app"
             android:backgroundTint="@color/background_card_details"
-            android:visibility="gone"
             android:textStyle="bold" />
 
         <Button

@@ -131,29 +131,16 @@ public class PrefUtils {
     }
 
 
-    public synchronized static void setEndTimeBreak(Context context, long endTimeBreak) {
+    public static int getItemId(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+        int itemId = prefs.getInt("itemId", 0);
+        return itemId;
+    }
+
+    public synchronized static void setItemId(Context context, int itemId) {
         SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong("endTimeBreak", endTimeBreak);
-        editor.apply();
-    }
-
-    public static long getEndTimeBreak(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
-        long endTimeBreak = prefs.getLong("endTimeBreak", 0);
-        return endTimeBreak;
-    }
-
-    public static long getEndTimeLongBreak(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
-        long endTimeLongBreak = prefs.getLong("endTimeLongBreak", 0);
-        return endTimeLongBreak;
-    }
-
-    public synchronized static void setEndTimeLongBreak(Context context, long endTimeLongBreak) {
-        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong("endTimeLongBreak", endTimeLongBreak);
+        editor.putInt("itemId", itemId);
         editor.apply();
     }
 

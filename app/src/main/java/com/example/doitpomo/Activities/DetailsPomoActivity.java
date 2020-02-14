@@ -117,6 +117,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
         longBreakSeekbar = findViewById(R.id.longBreakSeekbar);
         workSessionsSeekbar = findViewById(R.id.workSessionsSeekbar);
 
+        getItemId();
         updateData();
 
 
@@ -158,12 +159,13 @@ public class DetailsPomoActivity extends AppCompatActivity {
                 settingsTimerButton.setVisibility(View.GONE);
                 stopButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.VISIBLE);
-                breakButton.setVisibility(View.VISIBLE);
                 startButton.setVisibility(View.GONE);
 
                 PrefUtils.setIsWorkModeOn(getApplicationContext(), true);
                 PrefUtils.setIsBreakModeOn(getApplicationContext(), false);
                 PrefUtils.setIsResumed(getApplicationContext(), false);
+
+                stopService(new Intent(getApplicationContext(), TimerBroadcastService.class));
                 startService(new Intent(getApplicationContext(), TimerBroadcastService.class));
                 registerReceiver(broadcastReceiver, new IntentFilter(TimerBroadcastService.COUNTDOWN_BROADCAST));
             }
@@ -172,14 +174,16 @@ public class DetailsPomoActivity extends AppCompatActivity {
         breakButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                settingsTimerButton.setVisibility(View.GONE);
                 stopButton.setVisibility(View.VISIBLE);
                 breakButton.setVisibility(View.GONE);
                 startButton.setVisibility(View.VISIBLE);
-                breakButton.setVisibility(View.GONE);
-                startButton.setVisibility(View.VISIBLE);
+                pauseButton.setVisibility(View.VISIBLE);
+
                 PrefUtils.setIsWorkModeOn(getApplicationContext(), false);
                 PrefUtils.setIsBreakModeOn(getApplicationContext(), true);
 
+                stopService(new Intent(getApplicationContext(), TimerBroadcastService.class));
                 startService(new Intent(getApplicationContext(), TimerBroadcastService.class));
                 registerReceiver(broadcastReceiver, new IntentFilter(TimerBroadcastService.COUNTDOWN_BROADCAST));
             }
@@ -192,7 +196,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
                 pauseButton.setVisibility(View.GONE);
                 playButton.setVisibility(View.GONE);
                 stopButton.setVisibility(View.GONE);
-                breakButton.setVisibility(View.GONE);
+                breakButton.setVisibility(View.VISIBLE);
                 startButton.setVisibility(View.VISIBLE);
                 stopService(new Intent(getApplicationContext(), TimerBroadcastService.class));
                 updateTotalSpent();
@@ -372,44 +376,53 @@ public class DetailsPomoActivity extends AppCompatActivity {
                 resumeTimer();
                 pauseButton.setVisibility(View.VISIBLE);
                 playButton.setVisibility(View.GONE);
+                startButton.setVisibility(View.VISIBLE);
+                breakButton.setVisibility(View.VISIBLE);
             }
         });
 
 
     }
 
-    public void updateData() {
+    public void getItemId() {
         Bundle bundle = getIntent().getExtras();
+
+        if (bundle!= null) {
+
+            itemId = bundle.getInt("id");
+            PrefUtils.setItemId(getApplicationContext(), itemId);
+
+        }
+    }
+
+    public void updateData() {
+        int id = PrefUtils.getItemId(getApplicationContext());
 
         db = new DatabaseHandler(this);
 
-        if (bundle!= null) {
-            itemName.setText(bundle.getString("name"));
-            dateAdded.setText("Start:        " + bundle.getString("date"));
+        TodoItem todoItem = db.getTodoItem(id);
 
-            itemId = bundle.getInt("id");
-            TodoItem todoItem = db.getTodoItem(itemId);
-
-//            priorityTextView.setText("Priority:    " + bundle.getString("priority"));
-            priorityTextView.setText("Priority:    " + todoItem.getPriority());
-            if (todoItem.getTimeSpent() != 0) {
-                timeSpent.setVisibility(View.VISIBLE);
-                if (todoItem.getTimeSpent()/60 < 60){
-                    timeSpent.setText("Time:        " + todoItem.getTimeSpent() / 60 + " min");
-                } else {
-                    timeSpent.setText("Time:        " + todoItem.getTimeSpent()/3600 + " h " + todoItem.getTimeSpent() % 3600 + " min");
-                }
-            }
-
-            if (todoItem.getDescription() == null || todoItem.getDescription() == "") {
-                descriptionTextView.setVisibility(View.GONE);
+        itemName.setText(todoItem.getName());
+        dateAdded.setText("Start:        " + todoItem.getFinishDate());
+        priorityTextView.setText("Priority:    " + todoItem.getPriority());
+        if (todoItem.getTimeSpent() != 0) {
+            timeSpent.setVisibility(View.VISIBLE);
+            if (todoItem.getTimeSpent()/60 < 60){
+                timeSpent.setText("Time:        " + todoItem.getTimeSpent() / 60 + " min");
             } else {
-                descriptionTextView.setVisibility(View.VISIBLE);
-                descriptionTextView.setText("Notes:      " + todoItem.getDescription());
+                timeSpent.setText("Time:        " + todoItem.getTimeSpent()/3600 + " h " + todoItem.getTimeSpent() % 3600 + " min");
             }
-
-            dateFinish.setText("Finish:      " + todoItem.getFinishDate());
         }
+
+        if (todoItem.getDescription() == null || todoItem.getDescription() == "") {
+            descriptionTextView.setVisibility(View.GONE);
+        } else {
+            descriptionTextView.setVisibility(View.VISIBLE);
+            descriptionTextView.setText("Notes:      " + todoItem.getDescription());
+        }
+
+        dateFinish.setText("Finish:      " + todoItem.getFinishDate());
+
     }
 
 
@@ -427,6 +440,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
             }
 
             timerTextView.setText(minutes + ":" + secondString);
+
 
 
             if (secondsLeft == 0) {
@@ -652,7 +666,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
 
         db = new DatabaseHandler(this);
 
-        TodoItem todoItem = db.getTodoItem(itemId);
+        TodoItem todoItem = db.getTodoItem(PrefUtils.getItemId(getApplicationContext()));
 
         todoItem.setTimeSpent(todoItem.getTimeSpent()+ totalWorkOnTask);
         db.updateTodoItem(todoItem);

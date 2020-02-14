@@ -58,7 +58,7 @@ public class Notifications extends BroadcastReceiver {
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.pomodorodetails)
                 .setContentTitle("Time is up!")
-                .setContentText("Take a break?")
+                .setContentText("Time to take a break")
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(pendingIntent)
 //                .addAction(takeABreakAction(context))
@@ -112,11 +112,6 @@ public class Notifications extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = intent.getParcelableExtra(NOTIFICATION);
-//        int id = intent.getIntExtra(NOTIFICATION_ID, 0);
-//        notificationManager.notify(id, notification);
 
     }
 }

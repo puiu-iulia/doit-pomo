@@ -35,7 +35,7 @@ public class TimerBroadcastService extends Service {
         Log.i(TAG, "Starting timer...");
 
         int time = 0;
-        Context context = getApplicationContext();
+        final Context context = getApplicationContext();
 
         if (PrefUtils.getIsResumed(context)) {
             time = PrefUtils.getRemindingTime(context);
@@ -45,6 +45,7 @@ public class TimerBroadcastService extends Service {
             } else if (PrefUtils.getIsBreakModeOn(context)) {
                 if (PrefUtils.getWorkSessions(context) == PrefUtils.getCurrentWorkSession(context)) {
                     time = PrefUtils.getLongBreakTime(context);
+                    PrefUtils.setCurrentWorkSession(context, 0);
                 } else {
                     time = PrefUtils.getBreakTime(context);
                 }
@@ -63,7 +64,8 @@ public class TimerBroadcastService extends Service {
 
             @Override
             public void onFinish() {
-//                stopSelf();
+                PrefUtils.setCurrentWorkSession(context, PrefUtils.getCurrentWorkSession(context)+ 1);
+                stopSelf();
             }
         }.start();
 
