@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:backgroundTint="@android:color/white"
     android:background="@color/colorAccent"
+    android:layout_margin="8dp"
     tools:context=".Activities.DetailsPomoActivity">
 
     <android.support.v7.widget.CardView
@@ -14,11 +15,8 @@
         android:backgroundTint="@color/background_card_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
         app:cardCornerRadius="4dp"
+        android:layout_marginBottom="4dp"
         android:outlineSpotShadowColor="@color/background_card_details">
 
         <RelativeLayout
@@ -75,23 +73,6 @@
                     >
                 </View>
 
-<!--                <Spinner-->
-<!--                    android:id="@+id/spinnerSubtasks"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:layout_below="@+id/lineDetails">-->
-<!--                    -->
-<!--                </Spinner>-->
-
-<!--                <include layout="@layout/subtasks_list" />-->
-
-                <!--<View-->
-                <!--android:id="@+id/lineRedTwoDetails"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="@color/colorAccent"-->
-                <!--android:layout_below="@+id/lineDetails">-->
-                <!--</View>-->
 
                 <TextView
                     android:id="@+id/priorityDetails"
@@ -161,28 +142,27 @@
                         android:id="@+id/editButtonDetails"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
+                        android:layout_marginBottom="8dp"
                         android:backgroundTint="@color/lightGreenBackroundCard"
                         android:background="@drawable/ic_mode_edit_black_24dp"/>
+
+                    <Button
+                        android:id="@+id/addSubtaskButton"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/add"
+                        android:backgroundTint="@color/lightGreenBackroundCard"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Add SubTask"/>-->
 
 
                 </LinearLayout>
 
 
 
-
-
             </RelativeLayout>
-
-
-
-
-            <!--<ImageView-->
-            <!--android:id="@+id/arrowDate"-->
-            <!--android:layout_width="16dp"-->
-            <!--android:layout_height="16dp"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:layout_marginRight="8dp"-->
-            <!--android:src="@drawable/pomocheckgreenblackcircle"/>-->
 
 
 
@@ -191,379 +171,32 @@
 
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/seekBarCardView"
-        app:cardCornerRadius="4dp"
-        android:visibility="invisible"
-        android:layout_below="@+id/cardview"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:backgroundTint="@color/lightGreenBackroundCard">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/cardview"
+        app:cardCornerRadius="4dp"
+        android:layout_centerHorizontal="true">
 
-        <RelativeLayout
-            android:id="@+id/layoutSeekbar"
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:background="@color/background_card_details"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/timerSettingsText"
-                android:layout_margin="16dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/greyFont"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Timer Settings"/>
 
 
-            <RelativeLayout
-                android:layout_below="@+id/timerSettingsText"
-                android:id="@+id/workTextLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:outlineSpotShadowColor="@color/greyFont">
+        </android.support.design.widget.TabLayout>
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp">
 
-                <TextView
-                    android:id="@+id/workTimeStart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginTop="16dp"
-                    android:text="1"
-                    android:textColor="@color/greyFont" />
+        </android.support.v4.view.ViewPager>
 
-                <TextView
-                    android:id="@+id/workTimeTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="8dp"
-                    android:text="Work Time: 25min"
-                    android:textColor="@color/greyFont"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/workTimeStop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="4dp"
-                    android:text="90"
-                    android:textColor="@color/greyFont" />
-
-
-            </RelativeLayout>
-
-            <SeekBar
-                android:id="@+id/timerSeekbar"
-                android:layout_width="match_parent"
-                android:layout_height="16dp"
-                android:layout_below="@+id/workTextLayout"
-                android:layout_marginBottom="32dp"
-                android:progressBackgroundTint="@color/greyFont"
-                android:progressTint="@color/colorAccent"
-                android:thumbTint="@color/colorAccent" />
-
-
-            <RelativeLayout
-                android:id="@+id/breakTextLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/timerSeekbar"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:orientation="horizontal"
-                android:outlineSpotShadowColor="@color/greyFont">
-
-
-                <TextView
-                    android:id="@+id/breakTimeStart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="4dp"
-                    android:text="1"
-                    android:textColor="@color/greyFont" />
-
-                <TextView
-                    android:id="@+id/breakTimeTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="8dp"
-                    android:text="Break Time: 5min"
-                    android:textColor="@color/greyFont"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/breakTimeStop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="4dp"
-                    android:text="20"
-                    android:textColor="@color/greyFont" />
-
-
-            </RelativeLayout>
-
-
-            <SeekBar
-                android:id="@+id/breakSeekbar"
-                android:layout_width="match_parent"
-                android:layout_height="16dp"
-                android:layout_marginBottom="32dp"
-                android:layout_below="@id/breakTextLayout"
-                android:progressBackgroundTint="@color/greyFont"
-                android:progressTint="@color/background_card_details"
-                android:thumbTint="@color/background_card_details" />
-
-            <RelativeLayout
-                android:id="@+id/longBreakTextLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/breakSeekbar"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:orientation="horizontal"
-                android:outlineSpotShadowColor="@color/greyFont">
-
-
-                <TextView
-                    android:id="@+id/longBreakTimeStart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="4dp"
-                    android:text="1"
-                    android:textColor="@color/greyFont" />
-
-                <TextView
-                    android:id="@+id/longBreakTimeTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="8dp"
-                    android:text="Long Break Time: 5min"
-                    android:textColor="@color/greyFont"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/longBreakTimeStop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="4dp"
-                    android:text="30"
-                    android:textColor="@color/greyFont" />
-
-
-            </RelativeLayout>
-
-
-            <SeekBar
-                android:id="@+id/longBreakSeekbar"
-                android:layout_width="match_parent"
-                android:layout_height="16dp"
-                android:layout_marginBottom="32dp"
-                android:layout_below="@id/longBreakTextLayout"
-                android:progressBackgroundTint="@color/greyFont"
-                android:progressTint="@color/background_card_details"
-                android:thumbTint="@color/background_card_details" />
-
-            <RelativeLayout
-                android:id="@+id/workSessionsTextLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/longBreakSeekbar"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:orientation="horizontal"
-                android:outlineSpotShadowColor="@color/greyFont">
-
-
-                <TextView
-                    android:id="@+id/workSessionsTimeStart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="4dp"
-                    android:text="1"
-                    android:textColor="@color/greyFont" />
-
-                <TextView
-                    android:id="@+id/workSessionsTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="8dp"
-                    android:text="Work Sessions before Long Break"
-                    android:textColor="@color/greyFont"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/workSessionsTimeStop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="4dp"
-                    android:text="10"
-                    android:textColor="@color/greyFont" />
-
-
-            </RelativeLayout>
-
-
-            <SeekBar
-                android:id="@+id/workSessionsSeekbar"
-                android:layout_width="match_parent"
-                android:layout_height="16dp"
-                android:layout_below="@id/workSessionsTextLayout"
-                android:progressBackgroundTint="@color/greyFont"
-                android:progressTint="@color/background_card_details"
-                android:thumbTint="@color/background_card_details" />
-
-
-
-
-            <Button
-                android:id="@+id/saveSettinsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:backgroundTint="@color/background_card_details"
-                android:text="Save" />
-
-        </RelativeLayout>
-
-
-    </android.support.v7.widget.CardView>
-
-
-
-    <RelativeLayout
-        android:id="@+id/pomodoroLayout"
-        android:layout_below="@+id/cardview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp">
-
-
-            <ImageView
-                android:id="@+id/pomodoroImageView"
-                android:layout_width="260dp"
-                android:layout_height="260dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginVertical="48dp"
-                android:background="@drawable/pomodorodetails"
-                />
-
-            <TextView
-                android:id="@+id/countdownChooseTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:focusable="auto"
-                android:textColor="@color/lightGreenBackroundCard"
-                android:layout_marginLeft="120dp"
-                android:textSize="60sp"
-                android:textStyle="bold" />
-
-
-
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginTop="48dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-
-
-        <Button
-            android:id="@+id/goButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginHorizontal="8dp"
-            android:background="@drawable/pomo_button"
-            android:backgroundTint="@color/colorAccent"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/breakButton"
-            android:layout_width="44dp"
-            android:layout_height="52dp"
-            android:layout_marginLeft="8dp"
-            android:paddingTop="4dp"
-            android:background="@drawable/cup_pomodoro_app"
-            android:backgroundTint="@color/background_card_details"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/pauseButton"
-            android:layout_width="40dp"
-            android:visibility="gone"
-            android:layout_marginHorizontal="8dp"
-            android:background="@drawable/ic_pause_black_24dp"
-            android:backgroundTint="@color/lightGrey"
-            android:layout_height="40dp" />
-
-        <Button
-            android:id="@+id/playButton"
-            android:layout_width="48dp"
-            android:visibility="gone"
-            android:layout_marginHorizontal="8dp"
-            android:background="@drawable/ic_play_arrow_black_24dp"
-            android:backgroundTint="@color/lightGrey"
-            android:layout_height="48dp" />
-
-        <Button
-            android:id="@+id/stopButton"
-            android:layout_width="48dp"
-            android:background="@drawable/ic_stop_black_24dp"
-            android:layout_height="48dp"
-            android:textStyle="bold"
-            android:visibility="gone"
-            android:backgroundTint="@color/lightGrey"/>
-
-        <Button
-            android:id="@+id/settingsButton"
-            android:layout_width="44dp"
-            android:background="@drawable/ic_timer_black_24dp"
-            android:layout_height="44dp"
-            android:textStyle="bold"
-            android:layout_marginHorizontal="8dp"
-            android:textColor="@color/greyFont"
-            android:backgroundTint="@color/lightGrey"/>
-
-
-
-    </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
 
 </RelativeLayout>

@@ -10,13 +10,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
 import com.example.doitpomo.Activities.DetailsPomoActivity;
 import com.example.doitpomo.R;
-import com.example.doitpomo.Sync.TimerBroadcastService;
+
 
 public class Notifications extends BroadcastReceiver {
 

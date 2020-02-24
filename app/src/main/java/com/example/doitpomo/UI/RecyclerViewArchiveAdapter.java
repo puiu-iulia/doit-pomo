@@ -19,14 +19,14 @@ import com.example.doitpomo.R;
 
 import java.util.List;
 
-public class RecyclerViewAdapterArchive extends RecyclerView.Adapter<RecyclerViewAdapterArchive.ViewHolder> {
+public class RecyclerViewArchiveAdapter extends RecyclerView.Adapter<RecyclerViewArchiveAdapter.ViewHolder> {
 
     private Context context;
     int itemId;
     private List <TodoItem> todoItems;
     private LayoutInflater inflater;
 
-    public RecyclerViewAdapterArchive(Context context, List <TodoItem> todoItems) {
+    public RecyclerViewArchiveAdapter(Context context, List <TodoItem> todoItems) {
         this.context = context;
         this.todoItems = todoItems;
 
@@ -34,7 +34,7 @@ public class RecyclerViewAdapterArchive extends RecyclerView.Adapter<RecyclerVie
 
     @NonNull
     @Override
-    public RecyclerViewAdapterArchive.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public RecyclerViewArchiveAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_row_archive, viewGroup, false);
 
         return new ViewHolder(view, context);

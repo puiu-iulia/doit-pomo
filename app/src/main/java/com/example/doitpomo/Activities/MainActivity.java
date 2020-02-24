@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //Save to DB
         db.addTodoItem(todoItem);
 
-        Snackbar.make(v, "Saved!", Snackbar.LENGTH_SHORT).show();
+//        Snackbar.make(v, "Saved!", Snackbar.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
             @Override

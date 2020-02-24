@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardview"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="4dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:outlineSpotShadowColor="@color/backgroundList"
+        android:backgroundTint="@color/lightGreenBackroundCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:padding="4dp"
+            android:layout_height="match_parent">
+
+
+
+            <TextView
+                android:id="@+id/subtaskName"
+                android:text="TodoName"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/greyFont"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+
+            <Button
+                android:id="@+id/checkboxSubtask"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:paddingBottom="2dp"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:backgroundTint="@color/greyFont"
+                android:background="@drawable/ic_check_circle_black_24dp"/>
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

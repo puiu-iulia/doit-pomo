@@ -9,7 +9,7 @@ import android.util.Log;
 import com.example.doitpomo.Data.DatabaseHandler;
 import com.example.doitpomo.Model.TodoItem;
 import com.example.doitpomo.R;
-import com.example.doitpomo.UI.RecyclerViewAdapterArchive;
+import com.example.doitpomo.UI.RecyclerViewArchiveAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
 public class ArchiveActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private RecyclerViewAdapterArchive recyclerViewAdapterArchive;
+    private RecyclerViewArchiveAdapter recyclerViewAdapterArchive;
     private List <TodoItem> todoItemList;
     private List<TodoItem> todoItems;
     private DatabaseHandler db;
@@ -72,7 +72,7 @@ public class ArchiveActivity extends AppCompatActivity {
 
         }
 
-        recyclerViewAdapterArchive = new RecyclerViewAdapterArchive(this, todoItems);
+        recyclerViewAdapterArchive = new RecyclerViewArchiveAdapter(this, todoItems);
         recyclerView.setAdapter(recyclerViewAdapterArchive);
         recyclerViewAdapterArchive.notifyDataSetChanged();
 

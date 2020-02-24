@@ -2,11 +2,13 @@ package com.example.doitpomo.Data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.ContentObservable;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.doitpomo.Model.Subtask;
 import com.example.doitpomo.Model.TodoItem;
 import com.example.doitpomo.Utils.Constants;
 
@@ -38,13 +40,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         db.execSQL(CREATE_TODO_TABLE);
 
+        String CREATE_SUBTASK_TABLE = "CREATE TABLE " + Constants.SUBTASK_TABLE_NAME + "("
+                + Constants.KEY_SUBTASK_ID + " INTEGER PRIMARY KEY NOT NULL,"
+                + Constants.KEY_SUBTASK_ITEM + " TEXT NOT NULL,"
+                + Constants.KEY_SUBTASK_DONE + " INTEGER,"
+                + Constants.KEY_TODO_ID + " INTEGER);";
+
+        db.execSQL(CREATE_SUBTASK_TABLE);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME);
-
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.SUBTASK_TABLE_NAME);
         onCreate(db);
 
     }
@@ -71,6 +81,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(Constants.TABLE_NAME, null, values);
 
         Log.d("Saved!!", "Saved to DB");
+    }
+
+    //Add SubTask
+
+    public void addSubtask(Subtask subtask) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(Constants.KEY_SUBTASK_ITEM, subtask.getName());
+        values.put(Constants.KEY_SUBTASK_DONE, subtask.getDone());
+        values.put(Constants.KEY_TODO_ID, subtask.getTaskId());
     }
 
     //Get a TodoItem
@@ -112,6 +133,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return todoItem;
     }
 
+    public Subtask getSubtask(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(Constants.SUBTASK_TABLE_NAME, new String[]
+                        {
+                                Constants.KEY_SUBTASK_ID,
+                                Constants.KEY_SUBTASK_ITEM,
+                                Constants.KEY_SUBTASK_DONE,
+                                Constants.KEY_TODO_ID},
+                Constants.KEY_SUBTASK_ID + "=?", new String[] {String.valueOf(id)},
+                null, null, null, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        Subtask subtask = new Subtask();
+        subtask.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_SUBTASK_ID))));
+        subtask.setName(cursor.getString(cursor.getColumnIndex(Constants.KEY_SUBTASK_ITEM)));
+        subtask.setDone(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_SUBTASK_DONE))));
+        subtask.setTaskId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_TODO_ID))));
+
+        return subtask;
+    }
+
     //Get all TodoItems
     public List<TodoItem> getAllTodoItems() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -150,6 +194,31 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return todoItemList;
     }
 
+    public List<Subtask> getAllSubtaks() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        List<Subtask> subtasksList = new ArrayList <>();
+
+        Cursor cursor = db.query(Constants.SUBTASK_TABLE_NAME, new String[] {
+                Constants.KEY_SUBTASK_ID,
+                Constants.KEY_SUBTASK_ITEM,
+                Constants.KEY_SUBTASK_DONE,
+                Constants.KEY_TODO_ITEM
+        }, null, null, null, null, Constants.KEY_SUBTASK_DONE + " ASC");
+
+        if (cursor.moveToFirst()) {
+            do {
+                Subtask subtask = new Subtask();
+                subtask.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_SUBTASK_ID))));
+                subtask.setName(cursor.getString(cursor.getColumnIndex(Constants.KEY_SUBTASK_ITEM)));
+                subtask.setDone(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_SUBTASK_DONE))));
+                subtask.setTaskId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_TODO_ID))));
+            } while (cursor.moveToNext());
+        }
+
+        return subtasksList;
+    }
+
     //Update TodoITemList
     public int updateTodoItem(TodoItem todoItem){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -166,6 +235,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         //update row
         return db.update(Constants.TABLE_NAME, values, Constants.KEY_ID + "=?", new String[] {String.valueOf(todoItem.getId())});
+    }
+
+    public int updateSubtask(Subtask subtask) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(Constants.KEY_SUBTASK_ITEM, subtask.getName());
+        values.put(Constants.KEY_SUBTASK_DONE, subtask.getDone());
+        values.put(Constants.KEY_TODO_ID, subtask.getTaskId());
+
+        return db.update(Constants.SUBTASK_TABLE_NAME, values, Constants.KEY_SUBTASK_ID +"=?", new String[] {String.valueOf(subtask.getId())});
+
     }
 
     //Delete TodoItem
