@@ -21,8 +21,8 @@ public class TimerAdapter  extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         switch (i) {
             case 0: return new PomodoroTimer();
-            case 1: return new TimerSettings();
-            case 2: return new Subtasks();
+            case 1: return new Subtasks();
+            case 2: return new TimerSettings();
         }
 
         return null;
@@ -37,8 +37,8 @@ public class TimerAdapter  extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0: return "Timer";
-            case 1: return "Settings";
-            case 2: return "Subtasks";
+            case 1: return "Subtasks";
+            case 2: return "Settings";
         }
         return null;
     }

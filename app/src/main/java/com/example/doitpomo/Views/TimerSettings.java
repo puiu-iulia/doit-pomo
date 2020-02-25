@@ -166,8 +166,6 @@ public class TimerSettings extends Fragment {
             }
         });
 
-
-
         return timerSettingsView;
     }
 }

@@ -13,6 +13,7 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:id="@+id/subtaskSaveButton"
         android:layout_alignParentBottom="true"
         android:text="@string/save_button"
         android:textStyle="bold"

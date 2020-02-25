@@ -2,9 +2,11 @@ package com.example.doitpomo.UI;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,12 +45,17 @@ public class RecyclerViewSubtaksAdapter extends RecyclerView.Adapter<RecyclerVie
 
         Subtask subtask = subtasks.get(i);
         viewHolder.subtaskName.setText(subtask.getName());
-
+        if (subtask.getDone() == 1) {
+            viewHolder.completeSubtaskButton.setBackgroundResource(R.drawable.ic_check_black_24dp);
+//            viewHolder.completeSubtaskButton.setBackgroundTintMode((R.color.lightGrey));
+            viewHolder.subtaskName.setPaintFlags(viewHolder.subtaskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+        Log.d("Subtasks viewHolder", subtask.getName());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return subtasks.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -57,8 +64,10 @@ public class RecyclerViewSubtaksAdapter extends RecyclerView.Adapter<RecyclerVie
         public TextView subtaskName;
         public int id;
 
-        public ViewHolder(@NonNull View view, final Context context) {
+        public ViewHolder(@NonNull View view, final Context ctx) {
             super(view);
+
+            context = ctx;
 
             completeSubtaskButton = view.findViewById(R.id.checkboxSubtask);
             subtaskName = view.findViewById(R.id.subtaskName);
@@ -72,8 +81,17 @@ public class RecyclerViewSubtaksAdapter extends RecyclerView.Adapter<RecyclerVie
                     db.updateSubtask(subtask);
                     db.close();
 
-                    completeSubtaskButton.setVisibility(View.GONE);
+                    completeSubtaskButton.setBackgroundResource(R.drawable.ic_check_black_24dp);
                     subtaskName.setPaintFlags(subtaskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            subtasks.remove(position);
+                            notifyItemChanged(position);
+                            notifyItemRemoved(getAdapterPosition());
+                        }
+                    }, 1200); //  1 second.
 
                     Snackbar.make(v, "Completed!", Snackbar.LENGTH_SHORT).show();
                 }

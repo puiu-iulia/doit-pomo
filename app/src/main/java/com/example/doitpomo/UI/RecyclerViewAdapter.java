@@ -139,6 +139,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     todoItem.setCompletionDate(itemCompletionDate);
 
                     db.updateTodoItem(todoItem);
+                    db.close();
 
                     new Handler().postDelayed(new Runnable() {
                         @Override

@@ -20,6 +20,7 @@ import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -50,6 +51,7 @@ import com.example.doitpomo.UI.TimerAdapter;
 import com.example.doitpomo.Utils.Constants;
 import com.example.doitpomo.Utils.Notifications;
 import com.example.doitpomo.Utils.PrefUtils;
+import com.example.doitpomo.Views.Subtasks;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -71,7 +73,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
     private DatePicker toDoDateFinishEdit;
     private int workTime, breakTime, totalWorkOnTask, longBreakTime, workSessionsNumber, totalWork;
     private String priority, itemFinishDAte;
-    private ViewPager viewPager;
+    public static ViewPager viewPager;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -84,7 +86,6 @@ public class DetailsPomoActivity extends AppCompatActivity {
         dateAdded = findViewById(R.id.dateAddedDetails);
         timeSpent = findViewById(R.id.timeSpentOnProjectDetails);
         dateFinish = findViewById(R.id.dateFinishDetails);
-        descriptionTextView = findViewById(R.id.descriptionTextView);
         editButton = findViewById(R.id.editButtonDetails);
         checkboxButton = findViewById(R.id.checkbox);
         saveSettingsButton = findViewById(R.id.saveSettinsButton);
@@ -159,25 +160,20 @@ public class DetailsPomoActivity extends AppCompatActivity {
         TodoItem todoItem = db.getTodoItem(id);
 
         itemName.setText(todoItem.getName());
-        dateAdded.setText("Start:        " + todoItem.getFinishDate());
-        priorityTextView.setText("Priority:    " + todoItem.getPriority());
-        if (todoItem.getTimeSpent() != 0) {
-            timeSpent.setVisibility(View.VISIBLE);
+        dateAdded.setText(todoItem.getFinishDate());
+        priorityTextView.setText(todoItem.getPriority());
+
+        if (todoItem.getTimeSpent() == 0) {
+            timeSpent.setText("0 min");
+        } else {
             if (todoItem.getTimeSpent()/60 < 60){
-                timeSpent.setText("Time:        " + todoItem.getTimeSpent() / 60 + " min");
+                timeSpent.setText(todoItem.getTimeSpent() / 60 + " min");
             } else {
-                timeSpent.setText("Time:        " + todoItem.getTimeSpent()/3600 + " h " + todoItem.getTimeSpent() % 3600 + " min");
+                timeSpent.setText(todoItem.getTimeSpent()/3600 + " h " + todoItem.getTimeSpent() % 3600 + " min");
             }
         }
 
-        if (todoItem.getDescription() == null || todoItem.getDescription() == "") {
-            descriptionTextView.setVisibility(View.GONE);
-        } else {
-            descriptionTextView.setVisibility(View.VISIBLE);
-            descriptionTextView.setText("Notes:      " + todoItem.getDescription());
-        }
-
-        dateFinish.setText("Finish:      " + todoItem.getFinishDate());
+        dateFinish.setText(todoItem.getFinishDate());
 
     }
 
@@ -186,33 +182,49 @@ public class DetailsPomoActivity extends AppCompatActivity {
         dialogBuilder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.popup_subtask, null);
 
-        subtaskPopup = findViewById(R.id.popup_subtask_name);
+        saveSubtaskButton = view.findViewById(R.id.subtaskSaveButton);
+        subtaskPopup = view.findViewById(R.id.popup_subtask_name);
 
         dialogBuilder.setView(view);
         dialog = dialogBuilder.create();
         dialog.show();
 
-        String subtaskName = subtaskPopup.getText().toString();
 
-        //Save to DB
 
-        db = new DatabaseHandler(this);
-        Subtask subtask = new Subtask();
-        subtask.setName(subtaskName);
-        subtask.setDone(0);
-        subtask.setTaskId(PrefUtils.getItemId(getApplicationContext()));
-        db.addSubtask(subtask);
-        db.close();
-
-        new Handler().postDelayed(new Runnable() {
+        saveSubtaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                dialog.dismiss();
-                //start a new activity
-                startActivity(new Intent(DetailsPomoActivity.this, DetailsPomoActivity.class));
-                finish();
+            public void onClick(View v) {
+                String subtaskName = subtaskPopup.getText().toString();
+
+                //Save to DB
+
+                db = new DatabaseHandler(getApplicationContext());
+                Subtask subtask = new Subtask();
+                subtask.setName(subtaskName);
+                subtask.setDone(0);
+                subtask.setTaskId(PrefUtils.getItemId(getApplicationContext()));
+                db.addSubtask(subtask);
+                db.close();
+
+
+                Log.d("subtask", subtask.getName() + subtask.getTaskId());
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                        //start a new activity
+//                        Subtasks subtasksFragment = new Subtasks();
+                        startActivity(new Intent(DetailsPomoActivity.this, DetailsPomoActivity.class));
+//                        viewPager.setCurrentItem(2, true);
+//                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                        transaction.replace(R.id.subtasksContainerId, subtasksFragment);
+//                        transaction.commit();
+                        finish();
+                    }
+                }, 1200); //  1 second.
             }
-        }, 1200); //  1 second.
+        });
     }
 
 
@@ -449,17 +461,6 @@ public class DetailsPomoActivity extends AppCompatActivity {
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-//    public void saveToSharedPreferences() {
-//
-//        PrefUtils.setIsWorkModeOn(this, workModeIsOn);
-//        PrefUtils.setIsBreakModeOn(this, breakModeIsOn);
-//        PrefUtils.setEndTimeWork(this, endTimeWork);
-//        PrefUtils.setEndTimeBreak(this, endTimeBreak);
-//        PrefUtils.setEndTimeLongBreak(this, endTimeLongBreak);
-//        PrefUtils.setTotalWork(this, totalWork);
-//        PrefUtils.setTotalBreak(this, totalBreak);
-//        PrefUtils.setTotalLongBreak(this, totalLongBreak);
-//    }
 
     @Override
     protected void onStop() {

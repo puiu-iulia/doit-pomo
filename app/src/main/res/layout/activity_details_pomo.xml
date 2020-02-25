@@ -23,46 +23,26 @@
             android:id="@+id/itemCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="4dp">
 
-            <RelativeLayout
-                android:id="@+id/itemNameDetailsLayout"
-                android:paddingBottom="2dp"
-                android:layout_width="match_parent"
+
+
+            <CheckedTextView
+                android:id="@+id/itemNameDetails"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:checked="false"
+                android:gravity="center_vertical"
+                android:textColor="@color/lightGreenBackroundCard"
+                android:text="CheckedTextView" />
 
 
-                <CheckedTextView
-                    android:id="@+id/itemNameDetails"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:checked="false"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/lightGreenBackroundCard"
-                    android:text="CheckedTextView" />
-
-
-                <Button
-                    android:id="@+id/checkbox"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:paddingBottom="2dp"
-                    android:gravity="right"
-                    android:layout_alignParentRight="true"
-                    android:backgroundTint="@color/lightGreenBackroundCard"
-                    android:background="@drawable/ic_check_circle_black_24dp"/>
-
-
-
-
-            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_below="@+id/itemNameDetailsLayout"
+                android:layout_below="@+id/itemNameDetails"
                 android:layout_height="wrap_content">
 
                 <View
@@ -74,95 +54,280 @@
                 </View>
 
 
-                <TextView
-                    android:id="@+id/priorityDetails"
-                    android:layout_below="@+id/lineDetails"
-                    android:layout_width="wrap_content"
-                    android:textSize="16sp"
-                    android:text="Priority:"
-                    android:textColor="@color/lightGreenBackroundCard"
-                    android:layout_height="wrap_content" />
-
-
-                <TextView
-                    android:id="@+id/timeSpentOnProjectDetails"
-                    android:layout_below="@+id/priorityDetails"
-                    android:layout_width="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/lightGreenBackroundCard"
-                    android:text="time spent"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content" />
-
-
-
-                <TextView
-                    android:id="@+id/dateAddedDetails"
-                    android:textColor="@color/lightGreenBackroundCard"
-                    android:layout_below="@+id/timeSpentOnProjectDetails"
-                    android:textSize="16sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/dateFinishDetails"
-                    android:layout_below="@id/dateAddedDetails"
-                    android:textSize="16sp"
-                    android:textColor="@color/lightGreenBackroundCard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/descriptionTextView"
-                    android:layout_below="@id/dateFinishDetails"
-                    android:textSize="16sp"
-                    android:singleLine="false"
-                    android:textColor="@color/lightGreenBackroundCard"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
                 <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true">
+                    android:orientation="horizontal"
+                    android:id="@+id/info"
+                    android:layout_below="@id/lineDetails">
+
+                    <LinearLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Priority"
+                            android:textColor="@color/lightGreenBackroundCard"
+                            android:textSize="16sp" />
 
 
-                    <Button
-                        android:id="@+id/deleteButtonDetails"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_marginBottom="8dp"
-                        android:backgroundTint="@color/lightGreenBackroundCard"
-                        android:background="@drawable/ic_delete_black_24dp"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/lightGreenBackroundCard"
+                            >
+                        </View>
 
-                    <Button
-                        android:id="@+id/editButtonDetails"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginBottom="8dp"
-                        android:backgroundTint="@color/lightGreenBackroundCard"
-                        android:background="@drawable/ic_mode_edit_black_24dp"/>
 
-                    <Button
-                        android:id="@+id/addSubtaskButton"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/add"
-                        android:backgroundTint="@color/lightGreenBackroundCard"/>
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Add SubTask"/>-->
+                        <TextView
+                            android:id="@+id/priorityDetails"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Priority:"
+                            android:textColor="@color/lightGreenBackroundCard"
+                            android:textSize="16sp" />
 
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/lightGreenBackroundCard"
+                        >
+                    </View>
+
+                    <LinearLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Time Spent"
+                            android:textColor="@color/lightGreenBackroundCard"
+                            android:textSize="16sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/lightGreenBackroundCard"
+                            >
+                        </View>
+
+                        <TextView
+                            android:id="@+id/timeSpentOnProjectDetails"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="time spent"
+                            android:textColor="@color/lightGreenBackroundCard"
+                            android:textSize="16sp" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/lightGreenBackroundCard"
+                        >
+                    </View>
+
+                    <LinearLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date Added"
+                            android:textColor="@color/lightGreenBackroundCard"
+                            android:textSize="16sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/lightGreenBackroundCard"
+                            >
+                        </View>
+
+                        <TextView
+                            android:id="@+id/dateAddedDetails"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/lightGreenBackroundCard"
+                            android:textSize="16sp" />
+
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/lightGreenBackroundCard"
+                        >
+                    </View>
+
+                    <LinearLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Finish Date"
+                            android:textColor="@color/lightGreenBackroundCard"
+                            android:textSize="16sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/lightGreenBackroundCard"
+                            >
+                        </View>
+
+                        <TextView
+                            android:id="@+id/dateFinishDetails"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/lightGreenBackroundCard"
+                            android:textSize="16sp" />
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
+                <View
+                    android:id="@+id/lineDetailsTwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_below="@+id/info"
+                    android:background="@color/lightGreenBackroundCard"
+                    >
+                </View>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:layout_below="@+id/info"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <Button
+                            android:id="@+id/checkbox"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+
+                            android:background="@drawable/ic_check_circle_black_24dp"
+                            android:backgroundTint="@color/lightGreenBackroundCard"
+                            android:paddingBottom="2dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:text="Complete"
+                            android:textColor="@color/lightGreenBackroundCard"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_height="wrap_content">
+
+                        <Button
+                            android:id="@+id/addSubtaskButton"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/add"
+                            android:backgroundTint="@color/lightGreenBackroundCard" />
+
+                        <TextView
+                            android:textColor="@color/lightGreenBackroundCard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add SubTask"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <Button
+                            android:id="@+id/editButtonDetails"
+                            android:layout_width="32dp"
+                            android:width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/ic_mode_edit_black_24dp"
+                            android:backgroundTint="@color/lightGreenBackroundCard" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:text="Edit"
+                            android:textColor="@color/lightGreenBackroundCard"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <Button
+                            android:id="@+id/deleteButtonDetails"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/ic_delete_black_24dp"
+                            android:backgroundTint="@color/lightGreenBackroundCard" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:text="Delete"
+                            android:textColor="@color/lightGreenBackroundCard"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </RelativeLayout>
+
+
 
 
 
@@ -180,6 +345,7 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
+            app:tabIndicatorColor="@android:color/transparent"
             android:background="@color/background_card_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

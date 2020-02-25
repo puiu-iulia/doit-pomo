@@ -125,8 +125,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         dialog = dialogBuilder.create();
         dialog.show();
 
-
-
         spinner = view.findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.priority_arrays, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -182,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
                         Date finishDate =  new Date(year - 1900, month, dayOfMonth);
-                        SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
                         itemFinishDAte = formatter.format(finishDate);
                         itemFinishText.setText(" Finish Date: " + itemFinishDAte);
                     }
@@ -272,7 +270,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         todoItemList = new ArrayList<>();
         todoItems = new ArrayList<>();
 
-        Log.d("date_finish", "finish date");
 
         // Get Items from BD
         todoItemList = db.getAllTodoItems();

@@ -92,6 +92,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(Constants.KEY_SUBTASK_ITEM, subtask.getName());
         values.put(Constants.KEY_SUBTASK_DONE, subtask.getDone());
         values.put(Constants.KEY_TODO_ID, subtask.getTaskId());
+
+        db.insert(Constants.SUBTASK_TABLE_NAME, null, values);
     }
 
     //Get a TodoItem
@@ -203,7 +205,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 Constants.KEY_SUBTASK_ID,
                 Constants.KEY_SUBTASK_ITEM,
                 Constants.KEY_SUBTASK_DONE,
-                Constants.KEY_TODO_ITEM
+                Constants.KEY_TODO_ID
         }, null, null, null, null, Constants.KEY_SUBTASK_DONE + " ASC");
 
         if (cursor.moveToFirst()) {
@@ -213,6 +215,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 subtask.setName(cursor.getString(cursor.getColumnIndex(Constants.KEY_SUBTASK_ITEM)));
                 subtask.setDone(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_SUBTASK_DONE))));
                 subtask.setTaskId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_TODO_ID))));
+
+                subtasksList.add(subtask);
             } while (cursor.moveToNext());
         }
 
