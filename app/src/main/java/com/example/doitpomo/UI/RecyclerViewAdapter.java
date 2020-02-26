@@ -163,48 +163,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         }
 
-
     }
-
-
-//        public void deleteItem(final int id) {
-//
-//            //create an alert dialog
-//
-//            alertDialogBuilder = new android.app.AlertDialog.Builder(context);
-//
-//            inflater = LayoutInflater.from(context);
-//            View view = inflater.inflate(R.layout.confirmation_dialog, null);
-//
-//            Button noButton = (Button) view.findViewById(R.id.noButton);
-//            Button yesButton = (Button) view.findViewById(R.id.yesButton);
-//
-//            alertDialogBuilder.setView(view);
-//            dialog = alertDialogBuilder.create();
-//            dialog.show();
-//
-//            noButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    dialog.dismiss();
-//                }
-//            });
-//
-//            yesButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    //delete the item
-//                    DatabaseHandler db = new DatabaseHandler(context);
-//
-//                    //delete item
-//                    db.deleteTodoItem(id);
-//                    todoItems.remove(getAdapterPosition());
-//                    notifyItemRemoved(getAdapterPosition());
-//
-//                    dialog.dismiss();
-//                }
-//            });
-//        }
 }
 
 

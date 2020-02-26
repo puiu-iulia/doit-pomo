@@ -159,6 +159,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
         db = new DatabaseHandler(this);
 
         TodoItem todoItem = db.getTodoItem(id);
+        db.close();
 
         itemName.setText(todoItem.getName());
         dateAdded.setText(todoItem.getFinishDate());
@@ -272,8 +273,8 @@ public class DetailsPomoActivity extends AppCompatActivity {
 
 
         db = new DatabaseHandler(this);
-
         final TodoItem todoItem = db.getTodoItem(itemId);
+        db.close();
 
         todoEditPopup.setText(todoItem.getName());
         editPopupTextDate.setText("Finish Date: " + todoItem.getFinishDate());
@@ -347,14 +348,12 @@ public class DetailsPomoActivity extends AppCompatActivity {
                 } else {
                     //Save to DB
                     db.updateTodoItem(todoItem);
+                    db.close();
                 }
 
                 //Update in Details Activity
                 itemName.setText(todoItem.getName());
                 priorityTextView.setText(todoItem.getPriority());
-
-
-
                 dateFinish.setText(todoItem.getFinishDate());
                 dialog.dismiss();
             }
@@ -368,6 +367,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
         db = new DatabaseHandler(this);
 
         db.deleteTodoItem(itemId);
+        db.close();
 
         deleteButtonDetails.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.greyFont));
 
@@ -384,32 +384,6 @@ public class DetailsPomoActivity extends AppCompatActivity {
 
     }
 
-
-
-    public void updateTotalSpent() {
-
-        db = new DatabaseHandler(this);
-
-        TodoItem todoItem = db.getTodoItem(PrefUtils.getItemId(getApplicationContext()));
-        db.close();
-        Log.d("time spent item", String.valueOf(db.getTodoItem(itemId).getTimeSpent()));
-
-        Log.d("time on task", String.valueOf(todoItem.getTimeSpent()));
-
-        if (todoItem.getTimeSpent() != 0) {
-            int hours = todoItem.getTimeSpent() / 3600;
-            int minutes = todoItem.getTimeSpent() / 60 - (hours * 60);
-
-            timeSpent.setVisibility(View.VISIBLE);
-            if (hours <= 0) {
-                timeSpent.setText("Time:        " + minutes + " min");
-            } else {
-                timeSpent.setText("Time:        " + hours + " h" + minutes + " min");
-            }
-        } else {
-            timeSpent.setText("Time:    0 min");
-        }
-    }
 
     public void updateDone(View v) {
 

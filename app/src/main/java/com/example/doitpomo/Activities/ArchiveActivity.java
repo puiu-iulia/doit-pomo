@@ -51,7 +51,7 @@ public class ArchiveActivity extends AppCompatActivity {
 
         // Get Items from BD
         todoItemList = db.getAllTodoItems();
-
+        db.close();
 
         for (TodoItem c: todoItemList){
             TodoItem todoItem = new TodoItem();

@@ -98,7 +98,7 @@ public class RecyclerViewArchiveAdapter extends RecyclerView.Adapter<RecyclerVie
                     TodoItem todoItem = todoItems.get(position);
                     DatabaseHandler db = new DatabaseHandler(context);
                     db.deleteTodoItem(todoItem.getId());
-
+                    db.close();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {

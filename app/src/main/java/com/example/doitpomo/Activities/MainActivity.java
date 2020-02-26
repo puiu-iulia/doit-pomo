@@ -221,7 +221,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         todoItem.setFinishDate(itemFinishDAte);
 
         //Save to DB
+        db = new DatabaseHandler(this);
         db.addTodoItem(todoItem);
+        db.close();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -260,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Get Items from BD
         todoItemList = db.getAllTodoItems();
-
+        db.close();
 
         for (TodoItem c: todoItemList){
             TodoItem todoItem = new TodoItem();
