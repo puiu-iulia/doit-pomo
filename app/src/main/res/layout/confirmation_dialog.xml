@@ -14,7 +14,7 @@
 
             <TextView
                 android:id="@+id/textAlert"
-                android:text="@string/sure_text"
+                android:text="@string/time_spent_text"
                 android:layout_width="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:paddingTop="5dp"

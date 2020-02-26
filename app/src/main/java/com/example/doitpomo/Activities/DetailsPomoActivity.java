@@ -391,9 +391,6 @@ public class DetailsPomoActivity extends AppCompatActivity {
         db = new DatabaseHandler(this);
 
         TodoItem todoItem = db.getTodoItem(PrefUtils.getItemId(getApplicationContext()));
-
-        todoItem.setTimeSpent(todoItem.getTimeSpent()+ totalWorkOnTask);
-        db.updateTodoItem(todoItem);
         db.close();
         Log.d("time spent item", String.valueOf(db.getTodoItem(itemId).getTimeSpent()));
 
@@ -438,7 +435,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //start a new activity
-                startActivity(new Intent(DetailsPomoActivity.this, MainActivity.class));
+                startActivity(new Intent(DetailsPomoActivity.this, DetailsPomoActivity.class));
                 finish();
             }
         }, 1200); //  1 second.

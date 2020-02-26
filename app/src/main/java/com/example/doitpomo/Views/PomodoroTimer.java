@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.doitpomo.Activities.DetailsPomoActivity;
+import com.example.doitpomo.Activities.MainActivity;
+import com.example.doitpomo.Data.DatabaseHandler;
+import com.example.doitpomo.Model.TodoItem;
 import com.example.doitpomo.R;
 import com.example.doitpomo.Sync.TimerBroadcastService;
 import com.example.doitpomo.Utils.Notifications;
@@ -23,10 +29,14 @@ import com.example.doitpomo.Utils.PrefUtils;
 
 public class PomodoroTimer extends Fragment {
 
-    TextView timerTextView;
+    private TextView timerTextView;
 
-    Button startButton, pauseButton, playButton, breakButton, stopButton;
-    private int workTime;
+    private Button startButton, pauseButton, playButton, breakButton, stopButton;
+    private int workTime, totalWorkOnTask;
+    private DatabaseHandler db;
+    private AlertDialog.Builder alertDialogBuilder;
+    private AlertDialog dialog;
+    private LayoutInflater inflater;
 
     public PomodoroTimer() {
 
@@ -103,8 +113,9 @@ public class PomodoroTimer extends Fragment {
                 breakButton.setVisibility(View.VISIBLE);
                 startButton.setVisibility(View.VISIBLE);
                 getActivity().stopService(new Intent(context, TimerBroadcastService.class));
-//                updateTotalSpent();
                 timerTextView.setText((workTime / 60) + ":00");
+                createDialogTime();
+
             }
         });
 
@@ -131,6 +142,50 @@ public class PomodoroTimer extends Fragment {
         });
     }
 
+    private void createDialogTime() {
+        alertDialogBuilder = new AlertDialog.Builder(getContext());
+
+        inflater = LayoutInflater.from(getContext());
+        View view = inflater.inflate(R.layout.confirmation_dialog, null);
+
+        Button noButton = view.findViewById(R.id.noButton);
+        Button yesButton = view.findViewById(R.id.yesButton);
+
+        alertDialogBuilder.setView(view);
+        dialog = alertDialogBuilder.create();
+        dialog.show();
+
+        noButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        yesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateTotalSpent(workTime - PrefUtils.getRemainingTime(getContext()));
+                dialog.dismiss();
+                Intent intent = new Intent(getActivity(), DetailsPomoActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void updateTotalSpent(int time) {
+
+        db = new DatabaseHandler(getContext());
+
+        TodoItem todoItem = db.getTodoItem(PrefUtils.getItemId(getContext()));
+        Log.d("time spent", String.valueOf(todoItem.getTimeSpent()));
+
+        todoItem.setTimeSpent(todoItem.getTimeSpent() + time);
+        db.updateTodoItem(todoItem);
+        db.close();
+
+    }
+
     public void updateTimer(Intent intent) {
 
         if (intent.getExtras() != null) {
@@ -150,7 +205,7 @@ public class PomodoroTimer extends Fragment {
                 Log.d("Stop", "millis is 0");
                 Notifications.remindUserTimerFinished(getContext());
                 stopTimer();
-//                updateTotalSpent();
+                updateTotalSpent(workTime);
             }
         }
 
@@ -167,6 +222,7 @@ public class PomodoroTimer extends Fragment {
         startButton.setVisibility(View.VISIBLE);
 
         timerTextView.setText(String.valueOf(workTime / 60) + ":00");
+        getActivity().unregisterReceiver(broadcastReceiver);
         getActivity().stopService(new Intent(getContext(), TimerBroadcastService.class));
 
     }

@@ -32,7 +32,7 @@ public class TimerBroadcastService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        Log.i(TAG, "Starting timer...");
+//        Log.i(TAG, "Starting timer...");
 
         int time = 0;
         final Context context = getApplicationContext();
@@ -51,13 +51,13 @@ public class TimerBroadcastService extends Service {
                 }
             }
         }
-        Log.i(TAG, String.valueOf(time));
+//        Log.i(TAG, String.valueOf(time));
 
         workTimer = new CountDownTimer(time * 1000 + 100, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 intent.putExtra("countdown", millisUntilFinished);
-                Log.i(TAG, Long.toString(millisUntilFinished));
+//                Log.i(TAG, Long.toString(millisUntilFinished));
                 sendBroadcast(intent);
                 PrefUtils.setRemainingTime(getApplicationContext(), (int) (millisUntilFinished / 1000));
             }
