@@ -36,13 +36,7 @@ public class Subtasks extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View timerSettingsView = inflater.inflate(R.layout.fragment_subtasks, container, false);
-
-        return timerSettingsView;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_subtasks, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerViewSubtasks);
         recyclerView.setHasFixedSize(true);
@@ -60,11 +54,14 @@ public class Subtasks extends Fragment {
         Log.d("subtasks", subtaskList.toString());
 
         for (Subtask c: subtaskList) {
-            if (c.getTaskId() == PrefUtils.getItemId(getContext()) && c.getDone() == 0) {
-                Subtask subtask = new Subtask();
-                subtask.setName(c.getName());
-                subtask.setTaskId(c.getTaskId());
-                subtask.setDone(c.getDone());
+
+            Subtask subtask = new Subtask();
+            subtask.setId(c.getId());
+            subtask.setName(c.getName());
+            subtask.setTaskId(c.getTaskId());
+            subtask.setDone(c.getDone());
+
+            if (subtask.getTaskId() == PrefUtils.getItemId(getContext()) && subtask.getDone() == 0) {
                 subtasks.add(subtask);
             }
         }
@@ -75,6 +72,14 @@ public class Subtasks extends Fragment {
         recyclerViewSubtaksAdapter = new RecyclerViewSubtaksAdapter(getContext(), subtasks);
         recyclerView.setAdapter(recyclerViewSubtaksAdapter);
         recyclerViewSubtaksAdapter.notifyDataSetChanged();
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+
 
     }
 

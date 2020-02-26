@@ -38,7 +38,7 @@ public class TimerBroadcastService extends Service {
         final Context context = getApplicationContext();
 
         if (PrefUtils.getIsResumed(context)) {
-            time = PrefUtils.getRemindingTime(context);
+            time = PrefUtils.getRemainingTime(context);
         } else {
             if (PrefUtils.getIsWorkModeOn(context)) {
                 time = PrefUtils.getWorkTime(context);
@@ -59,7 +59,7 @@ public class TimerBroadcastService extends Service {
                 intent.putExtra("countdown", millisUntilFinished);
                 Log.i(TAG, Long.toString(millisUntilFinished));
                 sendBroadcast(intent);
-                PrefUtils.setRemaningTime(getApplicationContext(), (int) (millisUntilFinished / 1000));
+                PrefUtils.setRemainingTime(getApplicationContext(), (int) (millisUntilFinished / 1000));
             }
 
             @Override

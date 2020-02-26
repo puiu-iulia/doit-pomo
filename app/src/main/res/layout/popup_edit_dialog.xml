@@ -89,16 +89,6 @@
             </LinearLayout>
 
 
-
-
-            <EditText
-                android:id="@+id/categoryPopupEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Notes"
-                android:layout_below="@id/dateFinishLinearLayoutEdit"
-                android:inputType="text" />
-
             <Button
                 android:layout_marginTop="24dp"
                 android:id="@+id/saveEditButton"

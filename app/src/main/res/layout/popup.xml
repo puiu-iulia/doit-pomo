@@ -84,17 +84,6 @@
             </LinearLayout>
 
 
-
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/dateFinishLinearLayout"
-                android:hint="Notes (optional)"
-                style="@android:style/Widget.EditText"
-                android:id="@+id/notesDescription" />
-
-
             <Button
                 android:layout_marginTop="24dp"
                 android:id="@+id/saveButton"

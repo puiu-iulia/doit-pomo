@@ -63,7 +63,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
     public TextView dateAdded, timeSpent, dateFinish;
     public int itemId;
     private DatabaseHandler db;
-    TextView descriptionTextView, priorityTextView, editPopupTextDate;
+    TextView priorityTextView, editPopupTextDate;
     EditText todoEditPopup, categroyEditPopup, subtaskPopup;
     Button editButton, savaDateEditPopup, saveEditButton, todoItemDateFinishEditButton, addSubtaskButton, saveSettingsButton, checkboxButton, deleteButtonDetails, saveSubtaskButton;
     public RelativeLayout popupEditLayout, pomoLayout, calendarLayout;
@@ -101,6 +101,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabLayout);
         tabs.setupWithViewPager(viewPager);
         tabs.setTabTextColors(R.color.colorPrimary, Color.parseColor("white"));
+
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,6 +191,14 @@ public class DetailsPomoActivity extends AppCompatActivity {
         dialog.show();
 
 
+        subtaskPopup.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
 
         saveSubtaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,31 +207,30 @@ public class DetailsPomoActivity extends AppCompatActivity {
 
                 //Save to DB
 
-                db = new DatabaseHandler(getApplicationContext());
-                Subtask subtask = new Subtask();
-                subtask.setName(subtaskName);
-                subtask.setDone(0);
-                subtask.setTaskId(PrefUtils.getItemId(getApplicationContext()));
-                db.addSubtask(subtask);
-                db.close();
+                if (subtaskName.length() == 0) {
+                    Toast.makeText(DetailsPomoActivity.this, "Please enter a subtask", Toast.LENGTH_SHORT).show();
+                } else {
+                    db = new DatabaseHandler(getApplicationContext());
+                    Subtask subtask = new Subtask();
+                    subtask.setName(subtaskName);
+                    subtask.setDone(0);
+                    subtask.setTaskId(PrefUtils.getItemId(getApplicationContext()));
+                    db.addSubtask(subtask);
+                    db.close();
 
 
-                Log.d("subtask", subtask.getName() + subtask.getTaskId());
+                    Log.d("subtask", subtask.getName() + subtask.getTaskId());
+                    startActivity(new Intent(DetailsPomoActivity.this, DetailsPomoActivity.class));
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialog.dismiss();
-                        //start a new activity
-//                        Subtasks subtasksFragment = new Subtasks();
-                        startActivity(new Intent(DetailsPomoActivity.this, DetailsPomoActivity.class));
-//                        viewPager.setCurrentItem(2, true);
-//                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                        transaction.replace(R.id.subtasksContainerId, subtasksFragment);
-//                        transaction.commit();
-                        finish();
-                    }
-                }, 1200); //  1 second.
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.dismiss();
+                            viewPager.setCurrentItem(1, true);
+                            finish();
+                        }
+                    }, 1000); //  1 second.
+                }
             }
         });
     }
@@ -254,7 +262,6 @@ public class DetailsPomoActivity extends AppCompatActivity {
         });
 
         todoEditPopup = view.findViewById(R.id.todoItemEditPopup);
-        categroyEditPopup = view.findViewById(R.id.categoryPopupEditText);
         saveEditButton = view.findViewById(R.id.saveEditButton);
         todoItemDateFinishEditButton = view.findViewById(R.id.todoItemDateFinishEdit);
         savaDateEditPopup = view.findViewById(R.id.saveDateButtonEdit);
@@ -271,20 +278,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
         todoEditPopup.setText(todoItem.getName());
         editPopupTextDate.setText("Finish Date: " + todoItem.getFinishDate());
 
-        if (todoItem.getDescription() != null || todoItem.getDescription() != "") {
-            categroyEditPopup.setText(todoItem.getDescription());
-        }
-
         todoEditPopup.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
-            }
-        });
-
-        categroyEditPopup.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -339,11 +333,11 @@ public class DetailsPomoActivity extends AppCompatActivity {
 
 
                 todoItem.setName(todoEditPopup.getText().toString());
-                todoItem.setDescription(categroyEditPopup.getText().toString());
+                todoItem.setDescription("");
                 todoItem.setPriority(priority);
 
                 Date finishDate =  new Date(toDoDateFinishEdit.getYear() - 1900, toDoDateFinishEdit.getMonth(), toDoDateFinishEdit.getDayOfMonth());
-                SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yyyy");
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
                 String itemFinishDAte = formatter.format(finishDate);
                 todoItem.setFinishDate(itemFinishDAte);
 
@@ -357,17 +351,11 @@ public class DetailsPomoActivity extends AppCompatActivity {
 
                 //Update in Details Activity
                 itemName.setText(todoItem.getName());
-                priorityTextView.setText("Priority:    " + todoItem.getPriority());
-
-                if (todoItem.getDescription() == null || todoItem.getDescription() == "") {
-                    descriptionTextView.setVisibility(View.GONE);
-                } else {
-                    descriptionTextView.setVisibility(View.VISIBLE);
-                    descriptionTextView.setText("Notes:      " + todoItem.getDescription());
-                }
+                priorityTextView.setText(todoItem.getPriority());
 
 
-                dateFinish.setText("Finish:      " + todoItem.getFinishDate());
+
+                dateFinish.setText(todoItem.getFinishDate());
                 dialog.dismiss();
             }
         });

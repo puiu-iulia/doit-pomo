@@ -86,6 +86,7 @@ public class PomodoroTimer extends Fragment {
 
                 PrefUtils.setIsWorkModeOn(context, false);
                 PrefUtils.setIsBreakModeOn(context, true);
+                PrefUtils.setIsResumed(context, false);
 
                 getActivity().stopService(new Intent(context, TimerBroadcastService.class));
                 getActivity().startService(new Intent(context, TimerBroadcastService.class));
@@ -120,9 +121,12 @@ public class PomodoroTimer extends Fragment {
             @Override
             public void onClick(View v) {
                 resumeTimer();
+                if (PrefUtils.getIsWorkModeOn(context)) {
+                    breakButton.setVisibility(View.VISIBLE);
+                }
                 pauseButton.setVisibility(View.VISIBLE);
                 playButton.setVisibility(View.GONE);
-                breakButton.setVisibility(View.VISIBLE);
+
             }
         });
     }
@@ -142,8 +146,6 @@ public class PomodoroTimer extends Fragment {
 
             timerTextView.setText(minutes + ":" + secondString);
 
-
-
             if (secondsLeft == 0) {
                 Log.d("Stop", "millis is 0");
                 Notifications.remindUserTimerFinished(getContext());
@@ -161,7 +163,7 @@ public class PomodoroTimer extends Fragment {
         pauseButton.setVisibility(View.GONE);
         playButton.setVisibility(View.GONE);
         stopButton.setVisibility(View.GONE);
-        breakButton.setVisibility(View.GONE);
+        breakButton.setVisibility(View.VISIBLE);
         startButton.setVisibility(View.VISIBLE);
 
         timerTextView.setText(String.valueOf(workTime / 60) + ":00");

@@ -261,6 +261,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Delete TodoItem
+    public void deleteSubtask(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(Constants.SUBTASK_TABLE_NAME, Constants.KEY_SUBTASK_ID + "=?", new String[] {String.valueOf(id)});
+
+        db.close();
+    }
+
     //Get count
     public int getTodoItemCount() {
 

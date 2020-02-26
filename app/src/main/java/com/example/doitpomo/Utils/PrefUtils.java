@@ -117,14 +117,14 @@ public class PrefUtils {
     }
 
 
-    public synchronized static void setRemaningTime(Context context, int endTimeWork) {
+    public synchronized static void setRemainingTime(Context context, int endTimeWork) {
         SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("endTimeWork", endTimeWork);
         editor.apply();
     }
 
-    public static int getRemindingTime(Context context) {
+    public static int getRemainingTime(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
         int endTimeWork = prefs.getInt("endTimeWork", 0);
         return endTimeWork;

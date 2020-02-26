@@ -27,6 +27,7 @@ public class Notifications extends BroadcastReceiver {
     private static final int ACTION_BREAK_PENDING_INTENT_ID = 14;
     public static final int PENDING_INTENT_ID = 147;
     private static final int TIMER_REMINDER_NOTIFICATION_ID = 1473;
+    private static String textContent;
 
     public static void clearAllNotifications(Context context) {
         NotificationManager notificationManager = (NotificationManager)
@@ -53,11 +54,17 @@ public class Notifications extends BroadcastReceiver {
 //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
+        if (PrefUtils.getIsWorkModeOn(context)) {
+            textContent = "take a break.";
+        } else if (PrefUtils.getIsBreakModeOn(context)) {
+            textContent = "get back to work";
+        }
+
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context,FINISHED_TIMER_NOTIFICATION_CHANNEL_ID)
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.pomodorodetails)
                 .setContentTitle("Time is up!")
-                .setContentText("Time to take a break")
+                .setContentText("Time to " + textContent)
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(pendingIntent)
 //                .addAction(takeABreakAction(context))

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     private TextView itemFinishText;
-    private EditText toDoName, description;
+    private EditText toDoName;
     private DatePicker toDoDateFinish;
     private Button saveButton, todoItemFinish, saveDateButton;
 
@@ -147,20 +147,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         saveButton = view.findViewById(R.id.saveButton);
         todoItemFinish = view.findViewById(R.id.todoItemDateFinish);
         itemFinishText = view.findViewById(R.id.dateFinishText);
-        description = view.findViewById(R.id.notesDescription);
 
 
 
         toDoName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
-            }
-        });
-
-        description.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -222,19 +212,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         TodoItem todoItem = new TodoItem();
 
         String itemName = toDoName.getText().toString().trim();
-        String descriptionNotes = description.getText().toString().trim();
 
 
         todoItem.setName(itemName);
         todoItem.setPriority(priority);
-        todoItem.setDescription(descriptionNotes);
+        todoItem.setDescription("");
         todoItem.setDone(0);
         todoItem.setFinishDate(itemFinishDAte);
 
         //Save to DB
         db.addTodoItem(todoItem);
-
-//        Snackbar.make(v, "Saved!", Snackbar.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
             @Override
