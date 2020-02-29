@@ -47,20 +47,12 @@ public class PomodoroTimer extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View timerView = inflater.inflate(R.layout.fragment_pomodoro_timer, container, false);
 
-        return timerView;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-        super.onViewCreated(view, savedInstanceState);
-
-        startButton = view.findViewById(R.id.goButton);
-        pauseButton = view.findViewById(R.id.pauseButton);
-        playButton = view.findViewById(R.id.playButton);
-        breakButton = view.findViewById(R.id.breakButton);
-        stopButton = view.findViewById(R.id.stopButton);
-        timerTextView = view.findViewById(R.id.countdownChooseTime);
+        startButton = timerView.findViewById(R.id.goButton);
+        pauseButton = timerView.findViewById(R.id.pauseButton);
+        playButton = timerView.findViewById(R.id.playButton);
+        breakButton = timerView.findViewById(R.id.breakButton);
+        stopButton = timerView.findViewById(R.id.stopButton);
+        timerTextView = timerView.findViewById(R.id.countdownChooseTime);
 
         workTime = PrefUtils.getWorkTime(getContext());
 
@@ -77,6 +69,7 @@ public class PomodoroTimer extends Fragment {
 
 
                 PrefUtils.setIsWorkModeOn(context, true);
+                PrefUtils.setIsStopped(context, false);
                 PrefUtils.setIsBreakModeOn(context, false);
                 PrefUtils.setIsResumed(context, false);
 
@@ -112,6 +105,8 @@ public class PomodoroTimer extends Fragment {
                 stopButton.setVisibility(View.GONE);
                 breakButton.setVisibility(View.VISIBLE);
                 startButton.setVisibility(View.VISIBLE);
+                PrefUtils.setIsStopped(context, true);
+                getActivity().unregisterReceiver(broadcastReceiver);
                 getActivity().stopService(new Intent(context, TimerBroadcastService.class));
                 timerTextView.setText((workTime / 60) + ":00");
                 createDialogTime();
@@ -140,6 +135,15 @@ public class PomodoroTimer extends Fragment {
 
             }
         });
+
+        return timerView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        super.onViewCreated(view, savedInstanceState);
+
     }
 
     private void createDialogTime() {
@@ -173,7 +177,7 @@ public class PomodoroTimer extends Fragment {
         });
     }
 
-    public void updateTotalSpent(int time) {
+    private void updateTotalSpent(int time) {
 
         db = new DatabaseHandler(getContext());
 
@@ -186,7 +190,7 @@ public class PomodoroTimer extends Fragment {
 
     }
 
-    public void updateTimer(Intent intent) {
+    private void updateTimer(Intent intent) {
 
         if (intent.getExtras() != null) {
             long millisUntilFinished = intent.getLongExtra("countdown", 0);
@@ -212,7 +216,7 @@ public class PomodoroTimer extends Fragment {
     }
 
     @SuppressLint("ResourceAsColor")
-    public void stopTimer() {
+    private void stopTimer() {
 
 //        totalWorkOnTask = totalWorkOnTask + (workTime - (int) totalWork/1000);
         pauseButton.setVisibility(View.GONE);
@@ -221,24 +225,26 @@ public class PomodoroTimer extends Fragment {
         breakButton.setVisibility(View.VISIBLE);
         startButton.setVisibility(View.VISIBLE);
 
-        timerTextView.setText(String.valueOf(workTime / 60) + ":00");
+        timerTextView.setText((workTime / 60) + ":00");
         getActivity().unregisterReceiver(broadcastReceiver);
         getActivity().stopService(new Intent(getContext(), TimerBroadcastService.class));
 
     }
 
-    public void pauseTimer() {
+    private void pauseTimer() {
         pauseButton.setVisibility(View.GONE);
         playButton.setVisibility(View.VISIBLE);
         PrefUtils.setIsResumed(getContext(), false);
+        PrefUtils.setIsStopped(getContext(), true);
 //        Log.d("time left when paused", String.valueOf(PrefUtils.getRemindingTime(getContext()));
         getActivity().stopService(new Intent(getContext(), TimerBroadcastService.class));
     }
 
-    public void resumeTimer() {
+    private void resumeTimer() {
         pauseButton.setVisibility(View.VISIBLE);
         playButton.setVisibility(View.GONE);
         PrefUtils.setIsResumed(getContext(), true);
+        PrefUtils.setIsStopped(getContext(), false);
         getActivity().startService(new Intent(getContext(), TimerBroadcastService.class));
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter(TimerBroadcastService.COUNTDOWN_BROADCAST));
     }

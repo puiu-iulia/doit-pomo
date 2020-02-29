@@ -10,10 +10,10 @@ import com.example.doitpomo.Views.TimerSettings;
 
 import java.util.Timer;
 
-public class TimerAdapter  extends FragmentPagerAdapter {
+public class FragmentsAdapter extends FragmentPagerAdapter {
 
 
-    public TimerAdapter(FragmentManager fm) {
+    public FragmentsAdapter(FragmentManager fm) {
         super(fm);
     }
 

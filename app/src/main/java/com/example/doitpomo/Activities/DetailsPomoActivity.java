@@ -1,32 +1,19 @@
 package com.example.doitpomo.Activities;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.media.MediaPlayer;
 import android.os.Build;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -37,7 +24,6 @@ import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,12 +32,8 @@ import com.example.doitpomo.Data.DatabaseHandler;
 import com.example.doitpomo.Model.Subtask;
 import com.example.doitpomo.Model.TodoItem;
 import com.example.doitpomo.R;
-import com.example.doitpomo.Sync.TimerBroadcastService;
-import com.example.doitpomo.UI.TimerAdapter;
-import com.example.doitpomo.Utils.Constants;
-import com.example.doitpomo.Utils.Notifications;
+import com.example.doitpomo.UI.FragmentsAdapter;
 import com.example.doitpomo.Utils.PrefUtils;
-import com.example.doitpomo.Views.Subtasks;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -60,20 +42,20 @@ import java.util.Date;
 public class DetailsPomoActivity extends AppCompatActivity {
 
     private CheckedTextView itemName;
-    public TextView dateAdded, timeSpent, dateFinish;
-    public int itemId;
+    private TextView dateAdded, timeSpent, dateFinish;
+    private int itemId;
     private DatabaseHandler db;
-    TextView priorityTextView, editPopupTextDate;
-    EditText todoEditPopup, categroyEditPopup, subtaskPopup;
-    Button editButton, savaDateEditPopup, saveEditButton, todoItemDateFinishEditButton, addSubtaskButton, saveSettingsButton, checkboxButton, deleteButtonDetails, saveSubtaskButton;
+    private TextView priorityTextView, editPopupTextDate;
+    private EditText todoEditPopup, subtaskPopup;
+    private Button editButton, savaDateEditPopup, saveEditButton, todoItemDateFinishEditButton, addSubtaskButton, saveSettingsButton, checkboxButton, deleteButtonDetails, saveSubtaskButton;
     public RelativeLayout popupEditLayout, pomoLayout, calendarLayout;
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private Spinner spinner;
     private DatePicker toDoDateFinishEdit;
-    private int workTime, breakTime, totalWorkOnTask, longBreakTime, workSessionsNumber, totalWork;
+    private int workTime, breakTime, longBreakTime, workSessionsNumber;
     private String priority, itemFinishDAte;
-    public static ViewPager viewPager;
+    private static ViewPager viewPager;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -97,7 +79,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
         getItemId();
         updateData();
 
-        viewPager.setAdapter(new TimerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new FragmentsAdapter(getSupportFragmentManager()));
         TabLayout tabs = findViewById(R.id.tabLayout);
         tabs.setupWithViewPager(viewPager);
         tabs.setTabTextColors(R.color.colorPrimary, Color.parseColor("white"));
@@ -142,7 +124,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
 
     }
 
-    public void getItemId() {
+    private void getItemId() {
         Bundle bundle = getIntent().getExtras();
 
         if (bundle!= null) {
@@ -153,7 +135,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
         }
     }
 
-    public void updateData() {
+    private void updateData() {
         int id = PrefUtils.getItemId(getApplicationContext());
 
         db = new DatabaseHandler(this);
@@ -362,7 +344,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
 
     }
 
-    public void deleteItem() {
+    private void deleteItem() {
 
         db = new DatabaseHandler(this);
 
@@ -385,7 +367,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
     }
 
 
-    public void updateDone(View v) {
+    private void updateDone(View v) {
 
         db = new DatabaseHandler(this);
 
@@ -415,7 +397,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
         }, 1200); //  1 second.
     }
 
-    public void hideKeyboard(View view) {
+    private void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }

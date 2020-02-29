@@ -22,7 +22,7 @@ import java.util.List;
 public class RecyclerViewSubtaksAdapter extends RecyclerView.Adapter<RecyclerViewSubtaksAdapter.ViewHolder> {
 
     private Context context;
-    int subtaskId;
+    private int subtaskId;
     private List<Subtask> subtasks;
     private LayoutInflater inflater;
 
@@ -60,11 +60,11 @@ public class RecyclerViewSubtaksAdapter extends RecyclerView.Adapter<RecyclerVie
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public Button completeSubtaskButton;
-        public TextView subtaskName;
-        public int id;
+        private Button completeSubtaskButton;
+        private TextView subtaskName;
+        private int id;
 
-        public ViewHolder(@NonNull View view, final Context ctx) {
+        private ViewHolder(@NonNull View view, final Context ctx) {
             super(view);
 
             context = ctx;

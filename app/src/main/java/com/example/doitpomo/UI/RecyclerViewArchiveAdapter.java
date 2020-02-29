@@ -22,7 +22,7 @@ import java.util.List;
 public class RecyclerViewArchiveAdapter extends RecyclerView.Adapter<RecyclerViewArchiveAdapter.ViewHolder> {
 
     private Context context;
-    int itemId;
+    private int itemId;
     private List <TodoItem> todoItems;
     private LayoutInflater inflater;
 
@@ -71,14 +71,14 @@ public class RecyclerViewArchiveAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public Button deleteButton;
-        public TextView todoItemName;
-        public TextView dateAdded, dateFinished, timeSpent;
-        public int id;
+        private Button deleteButton;
+        private TextView todoItemName;
+        private TextView dateAdded, dateFinished, timeSpent;
+        private int id;
 
 
 
-        public ViewHolder(@NonNull View view, Context ctx) {
+        private ViewHolder(@NonNull View view, Context ctx) {
             super(view);
 
             context = ctx;

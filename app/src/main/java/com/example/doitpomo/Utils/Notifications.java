@@ -19,21 +19,15 @@ import com.example.doitpomo.R;
 
 public class Notifications extends BroadcastReceiver {
 
-    public static int NOTIFICATION_ID = 1234;
-    public static String NOTIFICATION = "notification";
-
     private static final String FINISHED_TIMER_NOTIFICATION_CHANNEL_ID = "reminder_notification_channel";
-    private static final int ACTION_WORK_PENDING_INTENT_ID = 1;
-    private static final int ACTION_BREAK_PENDING_INTENT_ID = 14;
-    public static final int PENDING_INTENT_ID = 147;
     private static final int TIMER_REMINDER_NOTIFICATION_ID = 1473;
     private static String textContent;
 
-    public static void clearAllNotifications(Context context) {
-        NotificationManager notificationManager = (NotificationManager)
-                context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancelAll();
-    }
+//    public static void clearAllNotifications(Context context) {
+//        NotificationManager notificationManager = (NotificationManager)
+//                context.getSystemService(Context.NOTIFICATION_SERVICE);
+//        notificationManager.cancelAll();
+//    }
 
     public static void remindUserTimerFinished(Context context) {
         NotificationManager notificationManager = (NotificationManager)
@@ -66,6 +60,7 @@ public class Notifications extends BroadcastReceiver {
                 .setContentTitle("Time is up!")
                 .setContentText("Time to " + textContent)
                 .setDefaults(Notification.DEFAULT_VIBRATE)
+//                .setSound()
                 .setContentIntent(pendingIntent)
 //                .addAction(takeABreakAction(context))
 //                .addAction(ignoreReminderAction(context))

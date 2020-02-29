@@ -18,8 +18,7 @@ public class PrefUtils {
 
     public static int getWorkTime(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
-        int workTime = prefs.getInt("Work", 1500);
-        return workTime;
+        return prefs.getInt("Work", 1500);
     }
 
     public synchronized static void setBreakTime(Context context, int breakTime) {
@@ -101,6 +100,19 @@ public class PrefUtils {
         SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
         Boolean isResumed = prefs.getBoolean("isResumed", false);
         return isResumed;
+    }
+
+    public synchronized static void setIsStopped(Context context, boolean isStopped) {
+        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("isStopped", isStopped);
+        editor.apply();
+    }
+
+    public static boolean getIsStopped(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+        Boolean isStopped = prefs.getBoolean("isStopped", false);
+        return isStopped;
     }
 
     public synchronized static void setIsBreakModeOn(Context context, boolean isBreakModeOn) {

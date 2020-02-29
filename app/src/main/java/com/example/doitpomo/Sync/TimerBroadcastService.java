@@ -57,7 +57,7 @@ public class TimerBroadcastService extends Service {
             @Override
             public void onTick(long millisUntilFinished) {
                 intent.putExtra("countdown", millisUntilFinished);
-//                Log.i(TAG, Long.toString(millisUntilFinished));
+                Log.i(TAG, Long.toString(millisUntilFinished));
                 sendBroadcast(intent);
                 PrefUtils.setRemainingTime(getApplicationContext(), (int) (millisUntilFinished / 1000));
             }
@@ -69,15 +69,17 @@ public class TimerBroadcastService extends Service {
             }
         }.start();
 
+
     }
-
-
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        workTimer.cancel();
+
+        if (PrefUtils.getIsStopped(getApplicationContext() )) {
+            workTimer.cancel();
+        }
     }
 
     @Override

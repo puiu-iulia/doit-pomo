@@ -18,8 +18,8 @@ import com.example.doitpomo.Utils.PrefUtils;
 
 public class TimerSettings extends Fragment {
 
-    TextView workTimeStart, workTimeStop, breakTimeStart, breakTimeStop, breakTimeTextView,  longBreakTextView, workSessionsTextView,workTimeTextView;
-    SeekBar timerSeekbar, breakSeekbar, longBreakSeekbar, workSessionsSeekbar;
+    private TextView workTimeStart, workTimeStop, breakTimeStart, breakTimeStop, breakTimeTextView,  longBreakTextView, workSessionsTextView,workTimeTextView;
+    private SeekBar timerSeekbar, breakSeekbar, longBreakSeekbar, workSessionsSeekbar;
     private int workTime, breakTime, longBreakTime, workSessionsNumber;
 
     public TimerSettings() {

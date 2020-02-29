@@ -49,14 +49,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private Spinner spinner;
-    private RelativeLayout popupRelativeLayout, calendarLayout;
-    String priority, itemFinishDAte;
+    private RelativeLayout popupRelativeLayout;
+    private String priority, itemFinishDAte;
 
 
     private TextView itemFinishText;
     private EditText toDoName;
     private DatePicker toDoDateFinish;
-    private Button saveButton, todoItemFinish, saveDateButton;
+    private Button saveButton, todoItemFinish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,10 +189,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 String input = toDoName.getText().toString();
                 if (input.length() == 0) {
                     Toast.makeText(MainActivity.this, "Please enter a task", Toast.LENGTH_SHORT).show();
-                    return;
                 } else if (itemFinishDAte == null) {
                     Toast.makeText(MainActivity.this, "Please choose a finish date", Toast.LENGTH_SHORT).show();
-                    return;
                 } else {
                     saveTodoItemToDB(v);
                 }
@@ -201,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    public void hideKeyboard(View view) {
+    private void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
