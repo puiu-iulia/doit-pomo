@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.doitpomo.R;
-import com.example.doitpomo.Utils.PrefUtils;
+import com.example.doitpomo.Utils.Prefs;
 
 public class TimerSettings extends Fragment {
 
@@ -64,10 +63,10 @@ public class TimerSettings extends Fragment {
         workSessionsSeekbar.setMax(10);
 
         final Context context = getActivity().getApplicationContext();
-        workTime = PrefUtils.getWorkTime(context);
-        breakTime = PrefUtils.getBreakTime(context);
-        longBreakTime = PrefUtils.getLongBreakTime(context);
-        workSessionsNumber = PrefUtils.getWorkSessions(context);
+        workTime = Prefs.getWorkTime(context);
+        breakTime = Prefs.getBreakTime(context);
+        longBreakTime = Prefs.getLongBreakTime(context);
+        workSessionsNumber = Prefs.getWorkSessions(context);
 
 
         timerSeekbar.setProgress(workTime / 60);
@@ -87,7 +86,7 @@ public class TimerSettings extends Fragment {
                 if (fromUser) {
                     workTime = progress * 60;
                     workTimeTextView.setText("Work Time: " + progress +" min");
-                    PrefUtils.setWorkTime(context, workTime);
+                    Prefs.setWorkTime(context, workTime);
                 }
             }
 
@@ -108,7 +107,7 @@ public class TimerSettings extends Fragment {
                 if (fromUser) {
                     breakTime = progress * 60;
                     breakTimeTextView.setText("Break Time: " + progress +" min");
-                    PrefUtils.setBreakTime(context, breakTime);
+                    Prefs.setBreakTime(context, breakTime);
                 }
 
             }
@@ -130,7 +129,7 @@ public class TimerSettings extends Fragment {
                 if (fromUser) {
                     longBreakTime = progress * 60;
                     longBreakTextView.setText("Long Break Time: " + progress + " min");
-                    PrefUtils.setLongBreakTime(context, longBreakTime);
+                    Prefs.setLongBreakTime(context, longBreakTime);
                 }
             }
 
@@ -151,7 +150,7 @@ public class TimerSettings extends Fragment {
                 if (fromUser) {
                     workSessionsNumber = progress;
                     workSessionsTextView.setText("Work Sessions before Long Break: " + progress);
-                    PrefUtils.setWorkSessions(context, workSessionsNumber);
+                    Prefs.setWorkSessions(context, workSessionsNumber);
                 }
             }
 

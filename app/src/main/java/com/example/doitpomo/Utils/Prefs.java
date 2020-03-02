@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 
-public class PrefUtils {
+public class Prefs {
 
     public synchronized static void setWorkTime(Context context, int workTime) {
 
@@ -158,7 +158,7 @@ public class PrefUtils {
 
     public static long getTotalWork(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
-        long totalWork = prefs.getLong("totalWork", PrefUtils.getWorkTime(context) * 1000);
+        long totalWork = prefs.getLong("totalWork", Prefs.getWorkTime(context) * 1000);
         return totalWork;
     }
 
@@ -172,7 +172,7 @@ public class PrefUtils {
 
     public static long getTotalBreak(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
-        long totalBreak = prefs.getLong("totalBreak", PrefUtils.getBreakTime(context) * 1000);
+        long totalBreak = prefs.getLong("totalBreak", Prefs.getBreakTime(context) * 1000);
         return totalBreak;
     }
 
@@ -185,7 +185,7 @@ public class PrefUtils {
 
     public static long getTotalLongBreak(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
-        long totalLongBreak = prefs.getLong("totalLongBreak", PrefUtils.getLongBreakTime(context) * 1000);
+        long totalLongBreak = prefs.getLong("totalLongBreak", Prefs.getLongBreakTime(context) * 1000);
         return totalLongBreak;
     }
 
@@ -198,8 +198,8 @@ public class PrefUtils {
 
 
 //    synchronized public void work(Context context) {
-//        int workSessions = PrefUtils.getWorkSessions(context);
-//        PrefUtils.setEndTimeWork(context, PrefUtils.getEndTimeWork(context));
+//        int workSessions = Prefs.getWorkSessions(context);
+//        Prefs.setEndTimeWork(context, Prefs.getEndTimeWork(context));
 //    }
 
     synchronized public void takeAbreak(Context context) {

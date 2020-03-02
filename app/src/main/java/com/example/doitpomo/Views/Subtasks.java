@@ -1,6 +1,5 @@
 package com.example.doitpomo.Views;
 
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,7 +15,7 @@ import com.example.doitpomo.Data.DatabaseHandler;
 import com.example.doitpomo.Model.Subtask;
 import com.example.doitpomo.R;
 import com.example.doitpomo.UI.RecyclerViewSubtaksAdapter;
-import com.example.doitpomo.Utils.PrefUtils;
+import com.example.doitpomo.Utils.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +60,7 @@ public class Subtasks extends Fragment {
             subtask.setTaskId(c.getTaskId());
             subtask.setDone(c.getDone());
 
-            if (subtask.getTaskId() == PrefUtils.getItemId(getContext()) && subtask.getDone() == 0) {
+            if (subtask.getTaskId() == Prefs.getItemId(getContext()) && subtask.getDone() == 0) {
                 subtasks.add(subtask);
             }
         }

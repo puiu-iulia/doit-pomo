@@ -1,6 +1,5 @@
 package com.example.doitpomo.Utils;
 
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -48,9 +47,9 @@ public class Notifications extends BroadcastReceiver {
 //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-        if (PrefUtils.getIsWorkModeOn(context)) {
+        if (Prefs.getIsWorkModeOn(context)) {
             textContent = "take a break.";
-        } else if (PrefUtils.getIsBreakModeOn(context)) {
+        } else if (Prefs.getIsBreakModeOn(context)) {
             textContent = "get back to work";
         }
 

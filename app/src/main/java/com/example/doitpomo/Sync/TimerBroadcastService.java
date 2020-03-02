@@ -1,23 +1,14 @@
 package com.example.doitpomo.Sync;
 
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 
-import com.example.doitpomo.Activities.DetailsPomoActivity;
-import com.example.doitpomo.R;
-import com.example.doitpomo.Utils.Notifications;
-import com.example.doitpomo.Utils.PrefUtils;
+import com.example.doitpomo.Utils.Prefs;
 
 public class TimerBroadcastService extends Service {
 
@@ -37,17 +28,17 @@ public class TimerBroadcastService extends Service {
         int time = 0;
         final Context context = getApplicationContext();
 
-        if (PrefUtils.getIsResumed(context)) {
-            time = PrefUtils.getRemainingTime(context);
+        if (Prefs.getIsResumed(context)) {
+            time = Prefs.getRemainingTime(context);
         } else {
-            if (PrefUtils.getIsWorkModeOn(context)) {
-                time = PrefUtils.getWorkTime(context);
-            } else if (PrefUtils.getIsBreakModeOn(context)) {
-                if (PrefUtils.getWorkSessions(context) == PrefUtils.getCurrentWorkSession(context)) {
-                    time = PrefUtils.getLongBreakTime(context);
-                    PrefUtils.setCurrentWorkSession(context, 0);
+            if (Prefs.getIsWorkModeOn(context)) {
+                time = Prefs.getWorkTime(context);
+            } else if (Prefs.getIsBreakModeOn(context)) {
+                if (Prefs.getWorkSessions(context) == Prefs.getCurrentWorkSession(context)) {
+                    time = Prefs.getLongBreakTime(context);
+                    Prefs.setCurrentWorkSession(context, 0);
                 } else {
-                    time = PrefUtils.getBreakTime(context);
+                    time = Prefs.getBreakTime(context);
                 }
             }
         }
@@ -59,12 +50,12 @@ public class TimerBroadcastService extends Service {
                 intent.putExtra("countdown", millisUntilFinished);
                 Log.i(TAG, Long.toString(millisUntilFinished));
                 sendBroadcast(intent);
-                PrefUtils.setRemainingTime(getApplicationContext(), (int) (millisUntilFinished / 1000));
+                Prefs.setRemainingTime(getApplicationContext(), (int) (millisUntilFinished / 1000));
             }
 
             @Override
             public void onFinish() {
-                PrefUtils.setCurrentWorkSession(context, PrefUtils.getCurrentWorkSession(context)+ 1);
+                Prefs.setCurrentWorkSession(context, Prefs.getCurrentWorkSession(context)+ 1);
                 stopSelf();
             }
         }.start();
@@ -77,7 +68,7 @@ public class TimerBroadcastService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        if (PrefUtils.getIsStopped(getApplicationContext() )) {
+        if (Prefs.getIsStopped(getApplicationContext() )) {
             workTimer.cancel();
         }
     }

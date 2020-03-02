@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,13 +18,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.doitpomo.Activities.DetailsPomoActivity;
-import com.example.doitpomo.Activities.MainActivity;
 import com.example.doitpomo.Data.DatabaseHandler;
 import com.example.doitpomo.Model.TodoItem;
 import com.example.doitpomo.R;
 import com.example.doitpomo.Sync.TimerBroadcastService;
 import com.example.doitpomo.Utils.Notifications;
-import com.example.doitpomo.Utils.PrefUtils;
+import com.example.doitpomo.Utils.Prefs;
 
 public class PomodoroTimer extends Fragment {
 
@@ -54,7 +52,7 @@ public class PomodoroTimer extends Fragment {
         stopButton = timerView.findViewById(R.id.stopButton);
         timerTextView = timerView.findViewById(R.id.countdownChooseTime);
 
-        workTime = PrefUtils.getWorkTime(getContext());
+        workTime = Prefs.getWorkTime(getContext());
 
         timerTextView.setText(workTime / 60 + ":00");
 
@@ -68,10 +66,10 @@ public class PomodoroTimer extends Fragment {
                 startButton.setVisibility(View.GONE);
 
 
-                PrefUtils.setIsWorkModeOn(context, true);
-                PrefUtils.setIsStopped(context, false);
-                PrefUtils.setIsBreakModeOn(context, false);
-                PrefUtils.setIsResumed(context, false);
+                Prefs.setIsWorkModeOn(context, true);
+                Prefs.setIsStopped(context, false);
+                Prefs.setIsBreakModeOn(context, false);
+                Prefs.setIsResumed(context, false);
 
                 getActivity().stopService(new Intent(context, TimerBroadcastService.class));
                 getActivity().startService(new Intent(context, TimerBroadcastService.class));
@@ -87,9 +85,9 @@ public class PomodoroTimer extends Fragment {
                 startButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.VISIBLE);
 
-                PrefUtils.setIsWorkModeOn(context, false);
-                PrefUtils.setIsBreakModeOn(context, true);
-                PrefUtils.setIsResumed(context, false);
+                Prefs.setIsWorkModeOn(context, false);
+                Prefs.setIsBreakModeOn(context, true);
+                Prefs.setIsResumed(context, false);
 
                 getActivity().stopService(new Intent(context, TimerBroadcastService.class));
                 getActivity().startService(new Intent(context, TimerBroadcastService.class));
@@ -105,7 +103,7 @@ public class PomodoroTimer extends Fragment {
                 stopButton.setVisibility(View.GONE);
                 breakButton.setVisibility(View.VISIBLE);
                 startButton.setVisibility(View.VISIBLE);
-                PrefUtils.setIsStopped(context, true);
+                Prefs.setIsStopped(context, true);
                 getActivity().unregisterReceiver(broadcastReceiver);
                 getActivity().stopService(new Intent(context, TimerBroadcastService.class));
                 timerTextView.setText((workTime / 60) + ":00");
@@ -127,7 +125,7 @@ public class PomodoroTimer extends Fragment {
             @Override
             public void onClick(View v) {
                 resumeTimer();
-                if (PrefUtils.getIsWorkModeOn(context)) {
+                if (Prefs.getIsWorkModeOn(context)) {
                     breakButton.setVisibility(View.VISIBLE);
                 }
                 pauseButton.setVisibility(View.VISIBLE);
@@ -169,7 +167,7 @@ public class PomodoroTimer extends Fragment {
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateTotalSpent(workTime - PrefUtils.getRemainingTime(getContext()));
+                updateTotalSpent(workTime - Prefs.getRemainingTime(getContext()));
                 dialog.dismiss();
                 Intent intent = new Intent(getActivity(), DetailsPomoActivity.class);
                 startActivity(intent);
@@ -181,7 +179,7 @@ public class PomodoroTimer extends Fragment {
 
         db = new DatabaseHandler(getContext());
 
-        TodoItem todoItem = db.getTodoItem(PrefUtils.getItemId(getContext()));
+        TodoItem todoItem = db.getTodoItem(Prefs.getItemId(getContext()));
         Log.d("time spent", String.valueOf(todoItem.getTimeSpent()));
 
         todoItem.setTimeSpent(todoItem.getTimeSpent() + time);
@@ -234,17 +232,17 @@ public class PomodoroTimer extends Fragment {
     private void pauseTimer() {
         pauseButton.setVisibility(View.GONE);
         playButton.setVisibility(View.VISIBLE);
-        PrefUtils.setIsResumed(getContext(), false);
-        PrefUtils.setIsStopped(getContext(), true);
-//        Log.d("time left when paused", String.valueOf(PrefUtils.getRemindingTime(getContext()));
+        Prefs.setIsResumed(getContext(), false);
+        Prefs.setIsStopped(getContext(), true);
+//        Log.d("time left when paused", String.valueOf(Prefs.getRemindingTime(getContext()));
         getActivity().stopService(new Intent(getContext(), TimerBroadcastService.class));
     }
 
     private void resumeTimer() {
         pauseButton.setVisibility(View.VISIBLE);
         playButton.setVisibility(View.GONE);
-        PrefUtils.setIsResumed(getContext(), true);
-        PrefUtils.setIsStopped(getContext(), false);
+        Prefs.setIsResumed(getContext(), true);
+        Prefs.setIsStopped(getContext(), false);
         getActivity().startService(new Intent(getContext(), TimerBroadcastService.class));
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter(TimerBroadcastService.COUNTDOWN_BROADCAST));
     }

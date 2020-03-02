@@ -33,7 +33,7 @@ import com.example.doitpomo.Model.Subtask;
 import com.example.doitpomo.Model.TodoItem;
 import com.example.doitpomo.R;
 import com.example.doitpomo.UI.FragmentsAdapter;
-import com.example.doitpomo.Utils.PrefUtils;
+import com.example.doitpomo.Utils.Prefs;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -114,11 +114,11 @@ public class DetailsPomoActivity extends AppCompatActivity {
         });
 
 
-        workTime = PrefUtils.getWorkTime(getApplicationContext());
+        workTime = Prefs.getWorkTime(getApplicationContext());
         Log.d("Work Time", String.valueOf(workTime));
-        breakTime = PrefUtils.getBreakTime(getApplicationContext());
-        longBreakTime = PrefUtils.getLongBreakTime(getApplicationContext());
-        workSessionsNumber = PrefUtils.getLongBreakTime(getApplicationContext());
+        breakTime = Prefs.getBreakTime(getApplicationContext());
+        longBreakTime = Prefs.getLongBreakTime(getApplicationContext());
+        workSessionsNumber = Prefs.getLongBreakTime(getApplicationContext());
 
 
 
@@ -130,13 +130,13 @@ public class DetailsPomoActivity extends AppCompatActivity {
         if (bundle!= null) {
 
             itemId = bundle.getInt("id");
-            PrefUtils.setItemId(getApplicationContext(), itemId);
+            Prefs.setItemId(getApplicationContext(), itemId);
 
         }
     }
 
     private void updateData() {
-        int id = PrefUtils.getItemId(getApplicationContext());
+        int id = Prefs.getItemId(getApplicationContext());
 
         db = new DatabaseHandler(this);
 
@@ -197,7 +197,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
                     Subtask subtask = new Subtask();
                     subtask.setName(subtaskName);
                     subtask.setDone(0);
-                    subtask.setTaskId(PrefUtils.getItemId(getApplicationContext()));
+                    subtask.setTaskId(Prefs.getItemId(getApplicationContext()));
                     db.addSubtask(subtask);
                     db.close();
 
