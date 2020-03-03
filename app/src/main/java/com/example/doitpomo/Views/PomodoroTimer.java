@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.doitpomo.Activities.DetailsPomoActivity;
@@ -27,7 +28,7 @@ import com.example.doitpomo.Utils.Prefs;
 
 public class PomodoroTimer extends Fragment {
 
-    private TextView timerTextView;
+    private TextView timerTextView, pomoSessionsText;
 
     private Button startButton, pauseButton, playButton, breakButton, stopButton;
     private int workTime, totalWorkOnTask;
@@ -35,6 +36,7 @@ public class PomodoroTimer extends Fragment {
     private AlertDialog.Builder alertDialogBuilder;
     private AlertDialog dialog;
     private LayoutInflater inflater;
+    private LinearLayout pomoSessionsLayout;
 
     public PomodoroTimer() {
 
@@ -51,12 +53,23 @@ public class PomodoroTimer extends Fragment {
         breakButton = timerView.findViewById(R.id.breakButton);
         stopButton = timerView.findViewById(R.id.stopButton);
         timerTextView = timerView.findViewById(R.id.countdownChooseTime);
+        pomoSessionsLayout = timerView.findViewById(R.id.pomoSessionsLayout);
+        pomoSessionsText = timerView.findViewById(R.id.pomoSessionsText);
 
         workTime = Prefs.getWorkTime(getContext());
 
         timerTextView.setText(workTime / 60 + ":00");
 
         final Context context = getActivity().getApplicationContext();
+
+        Log.d("work sessions", String.valueOf(Prefs.getCurrentWorkSession(context)));
+
+        if (Prefs.getCurrentWorkSession(context) > 0) {
+            pomoSessionsLayout.setVisibility(View.VISIBLE);
+            pomoSessionsText.setText(" x " + Prefs.getCurrentWorkSession(context));
+        } else {
+            pomoSessionsLayout.setVisibility(View.INVISIBLE);
+        }
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +120,10 @@ public class PomodoroTimer extends Fragment {
                 getActivity().unregisterReceiver(broadcastReceiver);
                 getActivity().stopService(new Intent(context, TimerBroadcastService.class));
                 timerTextView.setText((workTime / 60) + ":00");
-                createDialogTime();
+                if (Prefs.getIsWorkModeOn(context)) {
+                    createDialogTime();
+                }
+
 
             }
         });
@@ -178,10 +194,7 @@ public class PomodoroTimer extends Fragment {
     private void updateTotalSpent(int time) {
 
         db = new DatabaseHandler(getContext());
-
         TodoItem todoItem = db.getTodoItem(Prefs.getItemId(getContext()));
-        Log.d("time spent", String.valueOf(todoItem.getTimeSpent()));
-
         todoItem.setTimeSpent(todoItem.getTimeSpent() + time);
         db.updateTodoItem(todoItem);
         db.close();
@@ -205,9 +218,8 @@ public class PomodoroTimer extends Fragment {
 
             if (secondsLeft == 0) {
                 Log.d("Stop", "millis is 0");
-                Notifications.remindUserTimerFinished(getContext());
+//                Notifications.remindUserTimerFinished(getContext());
                 stopTimer();
-                updateTotalSpent(workTime);
             }
         }
 
@@ -247,6 +259,17 @@ public class PomodoroTimer extends Fragment {
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter(TimerBroadcastService.COUNTDOWN_BROADCAST));
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+//        getActivity().unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(TimerBroadcastService.COUNTDOWN_BROADCAST));
+    }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override

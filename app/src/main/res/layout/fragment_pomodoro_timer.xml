@@ -14,6 +14,30 @@
         android:background="@drawable/pomodorodetails"
         />
 
+    <LinearLayout
+        android:id="@+id/pomoSessionsLayout"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="32dp"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:background="@drawable/pomodorodetails"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+
+        <TextView
+            android:id="@+id/pomoSessionsText"
+            android:layout_width="wrap_content"
+            android:textAlignment="center"
+            android:textSize="16dp"
+            android:layout_gravity="center_vertical"
+            android:text=" x 1"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/countdownChooseTime"
         android:layout_width="wrap_content"

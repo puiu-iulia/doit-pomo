@@ -70,7 +70,7 @@ public class Prefs {
 
     public static int getCurrentWorkSession(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
-        int currentworkSession = prefs.getInt("Current", 1);
+        int currentworkSession = prefs.getInt("Current", 0);
         return currentworkSession;
     }
 

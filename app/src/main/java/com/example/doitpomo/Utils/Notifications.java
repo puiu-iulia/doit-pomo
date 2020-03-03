@@ -4,11 +4,13 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.app.TaskStackBuilder;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
@@ -16,7 +18,7 @@ import com.example.doitpomo.Activities.DetailsPomoActivity;
 import com.example.doitpomo.R;
 
 
-public class Notifications extends BroadcastReceiver {
+public class Notifications {
 
     private static final String FINISHED_TIMER_NOTIFICATION_CHANNEL_ID = "reminder_notification_channel";
     private static final int TIMER_REMINDER_NOTIFICATION_ID = 1473;
@@ -53,7 +55,7 @@ public class Notifications extends BroadcastReceiver {
             textContent = "get back to work";
         }
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context,FINISHED_TIMER_NOTIFICATION_CHANNEL_ID)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, FINISHED_TIMER_NOTIFICATION_CHANNEL_ID)
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.pomodorodetails)
                 .setContentTitle("Time is up!")
@@ -108,10 +110,4 @@ public class Notifications extends BroadcastReceiver {
 //                startActivityIntent,
 //                PendingIntent.FLAG_UPDATE_CURRENT)
 //    }
-
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-
-    }
 }

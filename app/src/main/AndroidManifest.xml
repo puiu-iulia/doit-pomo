@@ -34,7 +34,8 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <service android:name=".Sync.TimerBroadcastService"
+        <service
+            android:name=".Sync.TimerBroadcastService"
             android:exported="false" />
     </application>
 

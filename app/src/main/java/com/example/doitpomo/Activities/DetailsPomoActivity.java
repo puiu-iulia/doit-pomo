@@ -150,10 +150,13 @@ public class DetailsPomoActivity extends AppCompatActivity {
         if (todoItem.getTimeSpent() == 0) {
             timeSpent.setText("0 min");
         } else {
-            if (todoItem.getTimeSpent()/60 < 60){
-                timeSpent.setText(todoItem.getTimeSpent() / 60 + " min");
+            int minutes = todoItem.getTimeSpent();
+            if (minutes < 60){
+                timeSpent.setText(minutes + " min");
             } else {
-                timeSpent.setText(todoItem.getTimeSpent()/3600 + " h " + todoItem.getTimeSpent() % 3600 + " min");
+                int hours = todoItem.getTimeSpent()/3600;
+                int mins = todoItem.getTimeSpent() - (hours * 3600);
+                timeSpent.setText(hours + " h " + mins/60 + " min");
             }
         }
 
@@ -346,9 +349,10 @@ public class DetailsPomoActivity extends AppCompatActivity {
 
     private void deleteItem() {
 
+        int id = Prefs.getItemId(getApplicationContext());
         db = new DatabaseHandler(this);
 
-        db.deleteTodoItem(itemId);
+        db.deleteTodoItem(id);
         db.close();
 
         deleteButtonDetails.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.greyFont));
@@ -391,7 +395,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //start a new activity
-                startActivity(new Intent(DetailsPomoActivity.this, DetailsPomoActivity.class));
+                startActivity(new Intent(DetailsPomoActivity.this, MainActivity.class));
                 finish();
             }
         }, 1200); //  1 second.
@@ -422,6 +426,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        Prefs.setCurrentWorkSession(getApplicationContext(), 0);
     }
 
     @Override

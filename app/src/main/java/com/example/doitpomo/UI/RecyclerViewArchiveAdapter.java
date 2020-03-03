@@ -58,7 +58,7 @@ public class RecyclerViewArchiveAdapter extends RecyclerView.Adapter<RecyclerVie
                 if (hours <= 0) {
                     viewHolder.timeSpent.setText(minutes + " min");
                 } else {
-                    viewHolder.timeSpent.setText(hours + " h" + minutes + " min");
+                    viewHolder.timeSpent.setText(hours + " h " + minutes + " min");
                 }
 
         }

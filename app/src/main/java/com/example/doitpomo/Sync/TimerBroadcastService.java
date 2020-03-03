@@ -8,12 +8,16 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.doitpomo.Data.DatabaseHandler;
+import com.example.doitpomo.Model.TodoItem;
+import com.example.doitpomo.Utils.Notifications;
 import com.example.doitpomo.Utils.Prefs;
 
 public class TimerBroadcastService extends Service {
 
     public static final String COUNTDOWN_BROADCAST = "do_it_with_pomo_broadcast";
     private final static String TAG = "BroadcastService";
+    private DatabaseHandler db;
 
     Intent intent = new Intent(COUNTDOWN_BROADCAST);
 
@@ -48,18 +52,36 @@ public class TimerBroadcastService extends Service {
             @Override
             public void onTick(long millisUntilFinished) {
                 intent.putExtra("countdown", millisUntilFinished);
-                Log.i(TAG, Long.toString(millisUntilFinished));
+//                Log.i(TAG, Long.toString(millisUntilFinished));
                 sendBroadcast(intent);
-                Prefs.setRemainingTime(getApplicationContext(), (int) (millisUntilFinished / 1000));
+                Prefs.setRemainingTime(context, (int) (millisUntilFinished / 1000));
             }
 
             @Override
             public void onFinish() {
-                Prefs.setCurrentWorkSession(context, Prefs.getCurrentWorkSession(context)+ 1);
+                Log.d("TAG", "Send notification");
+                if (Prefs.getIsWorkModeOn(context)) {
+                    updateTotalSpent(Prefs.getWorkTime(context));
+                    Prefs.setCurrentWorkSession(context, Prefs.getCurrentWorkSession(context)+ 1);
+                }
+                Notifications.remindUserTimerFinished(context);
                 stopSelf();
             }
         }.start();
 
+
+    }
+
+    private void updateTotalSpent(int time) {
+
+        db = new DatabaseHandler(getApplicationContext());
+
+        TodoItem todoItem = db.getTodoItem(Prefs.getItemId(getApplicationContext()));
+        Log.d("time spent", String.valueOf(todoItem.getTimeSpent()));
+
+        todoItem.setTimeSpent(todoItem.getTimeSpent() + time);
+        db.updateTodoItem(todoItem);
+        db.close();
 
     }
 
