@@ -8,6 +8,9 @@ import android.app.Service;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -50,18 +53,19 @@ public class Notifications {
 //        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         if (Prefs.getIsWorkModeOn(context)) {
-            textContent = "take a break.";
+            textContent = "Take a break!";
         } else if (Prefs.getIsBreakModeOn(context)) {
-            textContent = "get back to work";
+            textContent = "Get back to work!";
         }
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, FINISHED_TIMER_NOTIFICATION_CHANNEL_ID)
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.pomodorodetails)
-                .setContentTitle("Time is up!")
-                .setContentText("Time to " + textContent)
+                .setContentTitle("Time is up.")
+                .setContentText(textContent)
                 .setDefaults(Notification.DEFAULT_VIBRATE)
-//                .setSound()
+//                .setSound(Uri.parse("android.resource://"
+//                        + context.getPackageName() + "/" + R.raw.sound))
                 .setContentIntent(pendingIntent)
 //                .addAction(takeABreakAction(context))
 //                .addAction(ignoreReminderAction(context))

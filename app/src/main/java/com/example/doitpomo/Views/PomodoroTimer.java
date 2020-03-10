@@ -184,6 +184,7 @@ public class PomodoroTimer extends Fragment {
             @Override
             public void onClick(View v) {
                 updateTotalSpent(workTime - Prefs.getRemainingTime(getContext()));
+                Prefs.setCurrentWorkSession(getContext(), 0);
                 dialog.dismiss();
                 Intent intent = new Intent(getActivity(), DetailsPomoActivity.class);
                 startActivity(intent);
