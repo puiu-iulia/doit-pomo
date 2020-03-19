@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="4dp"
+    android:id="@+id/listRowLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -32,13 +33,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <RadioButton
-                    android:id="@+id/priorityCircle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_gravity="center_vertical"
-                    />
+<!--                <CheckBox-->
+<!--                    android:id="@+id/priorityCircle"-->
+<!--                    android:src="@drawable/ic_check_circle_black_24dp"-->
+<!--                    android:backgroundTintMode="src_over"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginHorizontal="4dp"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    />-->
 
 
                 <TextView
@@ -47,6 +50,8 @@
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/greyFont"
                     android:textSize="20sp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginBottom="4dp"
                     android:fontFamily="sans-serif-light"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
@@ -131,8 +136,8 @@
                         android:id="@+id/calendarIcon"
                         android:src="@drawable/ic_date_range_black_24dp"
                         android:tint="@color/lightGrey"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
                         android:layout_height="24dp" />
 
                     <TextView

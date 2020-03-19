@@ -8,7 +8,7 @@
     android:backgroundTint="@android:color/white"
     android:background="@color/colorAccent"
     android:layout_margin="8dp"
-    tools:context=".Activities.DetailsPomoActivity">
+    tools:context="tech.terrastorm.doitpomo.Activities.DetailsPomoActivity">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardview"
@@ -31,10 +31,11 @@
                 android:id="@+id/itemNameDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:checked="false"
-                android:gravity="center_vertical"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
                 android:textColor="@color/lightGreenBackroundCard"
                 android:text="CheckedTextView" />
 

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#89cc78</color>
-    <color name="mediumPriority">#e0b74e</color>
-    <color name="lowPriority">#789acc</color>
+    <color name="colorAccent">#de6e66</color>
+    <color name="highPriority">#eddedd</color>
+    <color name="mediumPriority">#f0f5de</color>
+    <color name="lowPriority">#dee7f5</color>
     <color name="colorPrimaryDark">#2A332C</color>
     <color name="lightGreenBackroundCard">#EFF5EB</color>
-    <color name="colorAccent">#de6e66</color>
     <color name="greyFont">#2A332C</color>
     <color name="lightGrey">#767d77</color>
     <color name="darkGreen">#2A332C</color>
