@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -54,7 +55,8 @@ public class DetailsPomoActivity extends AppCompatActivity {
     private Spinner spinner;
     private DatePicker toDoDateFinishEdit;
     private int workTime, breakTime, longBreakTime, workSessionsNumber;
-    private String priority, itemFinishDAte;
+    private String itemFinishDAte;
+    private int priority;
     private static ViewPager viewPager;
 
 
@@ -145,7 +147,23 @@ public class DetailsPomoActivity extends AppCompatActivity {
 
         itemName.setText(todoItem.getName());
         dateAdded.setText(todoItem.getFinishDate());
-        priorityTextView.setText(todoItem.getPriority());
+
+        switch (todoItem.getPriority()) {
+            case 0:
+                priorityTextView.setText("High");
+                priorityTextView.setTextColor(getResources().getColor(R.color.highPriority));
+                break;
+            case 1:
+                priorityTextView.setText("Medium");
+                priorityTextView.setTextColor(getResources().getColor(R.color.mediumPriority));
+                break;
+            case 2:
+                priorityTextView.setText("Low");
+                priorityTextView.setTextColor(getResources().getColor(R.color.lowPriority));
+                break;
+            default:
+                return;
+        }
 
         if (todoItem.getTimeSpent() == 0) {
             timeSpent.setText("0 min");
@@ -158,6 +176,21 @@ public class DetailsPomoActivity extends AppCompatActivity {
                 int mins = todoItem.getTimeSpent() - (hours * 3600);
                 timeSpent.setText(hours + " h " + mins/60 + " min");
             }
+        }
+
+        switch (todoItem.getPriority()) {
+            case 0:
+                itemName.setTextColor(getResources().getColor(R.color.highPriority));
+                break;
+            case 1:
+                itemName.setTextColor(getResources().getColor(R.color.mediumPriority));
+                break;
+            case 2:
+                itemName.setTextColor(getResources().getColor(R.color.lowPriority));
+                break;
+            default:
+                return;
+
         }
 
         dateFinish.setText(todoItem.getFinishDate());
@@ -238,7 +271,7 @@ public class DetailsPomoActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView <?> parent, View view, int position, long id) {
-                priority = parent.getItemAtPosition(position).toString();
+                priority = position;
             }
 
             @Override

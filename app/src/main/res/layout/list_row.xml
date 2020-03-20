@@ -51,7 +51,6 @@
                     android:textColor="@color/greyFont"
                     android:textSize="20sp"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginBottom="4dp"
                     android:fontFamily="sans-serif-light"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
@@ -99,7 +98,7 @@
 
             <RelativeLayout
                 android:id="@+id/detailsTablesLayout"
-                android:paddingVertical="4dp"
+                android:paddingVertical="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/lineNotes">
@@ -137,7 +136,6 @@
                         android:src="@drawable/ic_date_range_black_24dp"
                         android:tint="@color/lightGrey"
                         android:layout_marginLeft="4dp"
-                        android:layout_marginRight="4dp"
                         android:layout_height="24dp" />
 
                     <TextView

@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private AlertDialog dialog;
     private Spinner spinner;
     private RelativeLayout popupRelativeLayout;
-    private String priority, itemFinishDAte;
+    private String itemFinishDAte;
+    private Integer priority;
 
 
     private TextView itemFinishText;
@@ -131,8 +132,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView <?> parent, View view, int position, long id) {
-                priority = parent.getItemAtPosition(position).toString();
-                Log.d("priority_value", priority);
+                priority = position;
+                Log.d("priority_value", String.valueOf(priority));
             }
 
             @Override

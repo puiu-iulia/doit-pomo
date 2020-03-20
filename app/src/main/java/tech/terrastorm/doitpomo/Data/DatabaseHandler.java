@@ -31,7 +31,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + Constants.KEY_TODO_ITEM + " TEXT NOT NULL,"
                 + Constants.KEY_TIME_SPENT + " INTEGER,"
                 + Constants.KEY_DONE + " INTEGER,"
-                + Constants.KEY_PRIORITY + " TEXT NOT NULL,"
+                + Constants.KEY_PRIORITY + " INTEGER NOT NULL,"
                 + Constants.KEY_DESCRIPTION + " TEXT,"
                 + Constants.KEY_DATE_NAME + " LONG,"
                 + Constants.KEY_COMPLETION_DATE + " LONG,"
@@ -120,7 +120,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         todoItem.setTimeSpent(cursor.getInt(cursor.getColumnIndex(Constants.KEY_TIME_SPENT)));
         todoItem.setDone(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_DONE))));
         todoItem.setDescription(cursor.getString(cursor.getColumnIndex(Constants.KEY_DESCRIPTION)));
-        todoItem.setPriority(cursor.getString(cursor.getColumnIndex(Constants.KEY_PRIORITY)));
+        todoItem.setPriority(cursor.getInt(cursor.getColumnIndex(Constants.KEY_PRIORITY)));
         todoItem.setCompletionDate(cursor.getString(cursor.getColumnIndex(Constants.KEY_COMPLETION_DATE)));
         todoItem.setFinishDate(cursor.getString(cursor.getColumnIndex(Constants.KEY_TODO_DATE_FINISH)));
 
@@ -166,14 +166,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.query(Constants.TABLE_NAME, new String[] {Constants.KEY_ID, Constants.KEY_TODO_ITEM, Constants.KEY_TIME_SPENT, Constants.KEY_DONE,
                         Constants.KEY_PRIORITY, Constants.KEY_DESCRIPTION,
                         Constants.KEY_DATE_NAME, Constants.KEY_COMPLETION_DATE, Constants.KEY_TODO_DATE_FINISH},
-                null, null, null, null, Constants.KEY_TODO_DATE_FINISH + " ASC");
+                null, null, null, null, Constants.KEY_PRIORITY + " ASC");
 
         if (cursor.moveToFirst()) {
             do {
                 TodoItem todoItem = new TodoItem();
                 todoItem.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_ID))));
                 todoItem.setName(cursor.getString(cursor.getColumnIndex(Constants.KEY_TODO_ITEM)));
-                todoItem.setPriority(cursor.getString(cursor.getColumnIndex(Constants.KEY_PRIORITY)));
+                todoItem.setPriority(cursor.getInt(cursor.getColumnIndex(Constants.KEY_PRIORITY)));
                 todoItem.setDescription(cursor.getString(cursor.getColumnIndex(Constants.KEY_DESCRIPTION)));
                 todoItem.setTimeSpent(cursor.getInt(cursor.getColumnIndex(Constants.KEY_TIME_SPENT)));
                 todoItem.setFinishDate(cursor.getString(cursor.getColumnIndex(Constants.KEY_TODO_DATE_FINISH)));

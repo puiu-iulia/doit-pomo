@@ -6,7 +6,7 @@ public class TodoItem {
     private String dateItemAdded;
     private String finishDate;
     private String completionDate;
-    private String priority;
+    private int priority;
     private int timeSpent;
     private String description;
     private int id;
@@ -78,11 +78,11 @@ public class TodoItem {
         this.id = id;
     }
 
-    public String getPriority() {
+    public int getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(int priority) {
         this.priority = priority;
     }
 

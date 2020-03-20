@@ -61,13 +61,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
             switch (todoItem.getPriority()) {
-                case "High" :
+                case 0 :
                     viewHolder.listRowCard.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.highPriority));
                     break;
-                case "Medium":
+                case 1:
                     viewHolder.listRowCard.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.mediumPriority));
                     break;
-                case "Low":
+                case 2:
                     viewHolder.listRowCard.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.lowPriority));
                     break;
                 default:

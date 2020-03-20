@@ -36,7 +36,7 @@
                 android:checked="false"
                 android:gravity="center"
                 android:layout_centerHorizontal="true"
-                android:textColor="@color/lightGreenBackroundCard"
+                android:textColor="@color/highPriority"
                 android:text="CheckedTextView" />
 
 

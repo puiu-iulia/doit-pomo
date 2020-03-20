@@ -6,6 +6,34 @@
     android:layout_height="match_parent"
     tools:context="tech.terrastorm.doitpomo.Activities.MainActivity">
 
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/cardview"
+        app:cardCornerRadius="4dp"
+        android:layout_centerHorizontal="true">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayoutMain"
+            app:tabIndicatorColor="@android:color/transparent"
+            android:background="@color/background_card_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+        </android.support.design.widget.TabLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPagerMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp">
+
+        </android.support.v4.view.ViewPager>
+
+    </android.support.design.widget.CoordinatorLayout>
+
     <include layout="@layout/content_list"></include>
 
 
