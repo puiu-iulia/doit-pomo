@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import tech.terrastorm.doitpomo.Data.DatabaseHandler;
 import tech.terrastorm.doitpomo.Model.Subtask;
-import com.example.doitpomo.R;
+import tech.terrastorm.doitpomo.R;
 import tech.terrastorm.doitpomo.UI.RecyclerViewSubtaksAdapter;
 import tech.terrastorm.doitpomo.Utils.Prefs;
 

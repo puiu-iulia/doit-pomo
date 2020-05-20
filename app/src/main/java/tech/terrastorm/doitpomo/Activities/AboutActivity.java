@@ -3,7 +3,8 @@ package tech.terrastorm.doitpomo.Activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.doitpomo.R;
+import tech.terrastorm.doitpomo.R;
+
 
 public class AboutActivity extends AppCompatActivity {
 

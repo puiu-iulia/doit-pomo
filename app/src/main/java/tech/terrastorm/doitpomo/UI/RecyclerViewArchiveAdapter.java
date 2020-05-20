@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import tech.terrastorm.doitpomo.Data.DatabaseHandler;
 import tech.terrastorm.doitpomo.Model.TodoItem;
-import com.example.doitpomo.R;
+import tech.terrastorm.doitpomo.R;
 
 import java.util.List;
 

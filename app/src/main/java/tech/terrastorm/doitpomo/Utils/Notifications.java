@@ -12,7 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
 import tech.terrastorm.doitpomo.Activities.DetailsPomoActivity;
-import com.example.doitpomo.R;
+import tech.terrastorm.doitpomo.R;
 
 
 public class Notifications {

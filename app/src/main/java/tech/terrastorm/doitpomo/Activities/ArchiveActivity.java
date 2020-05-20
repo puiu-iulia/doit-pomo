@@ -8,7 +8,7 @@ import android.util.Log;
 
 import tech.terrastorm.doitpomo.Data.DatabaseHandler;
 import tech.terrastorm.doitpomo.Model.TodoItem;
-import com.example.doitpomo.R;
+import tech.terrastorm.doitpomo.R;
 import tech.terrastorm.doitpomo.UI.RecyclerViewArchiveAdapter;
 
 import java.util.ArrayList;

@@ -21,7 +21,7 @@ import android.widget.TextView;
 import tech.terrastorm.doitpomo.Activities.DetailsPomoActivity;
 import tech.terrastorm.doitpomo.Data.DatabaseHandler;
 import tech.terrastorm.doitpomo.Model.TodoItem;
-import com.example.doitpomo.R;
+import tech.terrastorm.doitpomo.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

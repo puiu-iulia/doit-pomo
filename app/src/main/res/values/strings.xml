@@ -39,4 +39,5 @@ Keep on working, Pomodoro after Pomodoro, until the task at hand is finished. Ev
         <item>Low</item>
     </string-array>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="noTasks">You don\'t have any unfinished tasks at the moment. Tap the <b><font fgcolor="#de6e66" size="24">+</font></b> above to create a task.</string>
 </resources>

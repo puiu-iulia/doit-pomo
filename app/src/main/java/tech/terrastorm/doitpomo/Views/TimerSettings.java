@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.example.doitpomo.R;
+import tech.terrastorm.doitpomo.R;
 import tech.terrastorm.doitpomo.Utils.Prefs;
 
 public class TimerSettings extends Fragment {

@@ -32,7 +32,7 @@ import android.widget.Toast;
 import tech.terrastorm.doitpomo.Data.DatabaseHandler;
 import tech.terrastorm.doitpomo.Model.Subtask;
 import tech.terrastorm.doitpomo.Model.TodoItem;
-import com.example.doitpomo.R;
+import tech.terrastorm.doitpomo.R;
 import tech.terrastorm.doitpomo.UI.FragmentsAdapter;
 import tech.terrastorm.doitpomo.Utils.Prefs;
 
@@ -121,8 +121,6 @@ public class DetailsPomoActivity extends AppCompatActivity {
         breakTime = Prefs.getBreakTime(getApplicationContext());
         longBreakTime = Prefs.getLongBreakTime(getApplicationContext());
         workSessionsNumber = Prefs.getLongBreakTime(getApplicationContext());
-
-
 
     }
 
@@ -351,9 +349,6 @@ public class DetailsPomoActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                todoItem.setName(todoEditPopup.getText().toString());
-                todoItem.setDescription("");
-                todoItem.setPriority(priority);
 
                 Date finishDate =  new Date(toDoDateFinishEdit.getYear() - 1900, toDoDateFinishEdit.getMonth(), toDoDateFinishEdit.getDayOfMonth());
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
@@ -365,14 +360,17 @@ public class DetailsPomoActivity extends AppCompatActivity {
                     return;
                 } else {
                     //Save to DB
+                    todoItem.setName(todoEditPopup.getText().toString());
+                    todoItem.setDescription("");
+                    todoItem.setPriority(priority);
                     db.updateTodoItem(todoItem);
-                    db.close();
                 }
 
                 //Update in Details Activity
                 itemName.setText(todoItem.getName());
                 priorityTextView.setText(todoItem.getPriority());
                 dateFinish.setText(todoItem.getFinishDate());
+                db.close();
                 dialog.dismiss();
             }
         });

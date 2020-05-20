@@ -28,7 +28,7 @@ import android.widget.Toast;
 
 import tech.terrastorm.doitpomo.Data.DatabaseHandler;
 import tech.terrastorm.doitpomo.Model.TodoItem;
-import com.example.doitpomo.R;
+import tech.terrastorm.doitpomo.R;
 import tech.terrastorm.doitpomo.UI.RecyclerViewAdapter;
 
 import java.text.SimpleDateFormat;
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     private TextView itemFinishText;
+    private TextView noTasksText;
     private EditText toDoName;
     private DatePicker toDoDateFinish;
     private Button saveButton, todoItemFinish;
@@ -62,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         renderList();
     }
@@ -251,6 +251,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         db = new DatabaseHandler(this);
         recyclerView = findViewById(R.id.recyclerViewID);
+        noTasksText = findViewById(R.id.noTasksText);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -283,6 +284,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         recyclerViewAdapter = new RecyclerViewAdapter(this, todoItems);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.notifyDataSetChanged();
+
+        if (recyclerViewAdapter.getItemCount() > 0) {
+            noTasksText.setVisibility(View.GONE);
+            Log.d("visibility gone", String.valueOf(noTasksText.isShown()));
+        } else {
+            noTasksText.setVisibility(View.VISIBLE);
+            Log.d("visibility shown", String.valueOf(noTasksText.isShown()));
+        }
 
     }
 }
